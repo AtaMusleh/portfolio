@@ -1,0 +1,17 @@
+export const marqueeItems: string[] = [
+  "TypeScript",
+  "Next.js",
+  "React",
+  "Node.js",
+  "Express",
+  "PostgreSQL",
+  "Prisma",
+  "Tailwind CSS",
+  "GSAP",
+  "Motion",
+  "Mapbox",
+  "Zod",
+  "Appian",
+  "SAIL",
+  "Vercel",
+]
