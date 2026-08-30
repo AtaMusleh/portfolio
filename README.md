@@ -20,6 +20,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Development
+
+On a clean checkout, run `npm run build` before `npx tsc --noEmit`. Next.js generates typed-route
+definitions into `.next/types` during the build, and the globally available `PageProps` /
+`LayoutProps` helpers resolve their route literals against them. Type-checking first will fail
+with errors like `Type '"/work/[slug]"' does not satisfy the constraint 'AppRoutes'` — that is the
+missing generated types, not a fault in the source.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -1,8 +1,9 @@
-import { ExternalLink, GitBranch } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { GitHubIcon } from "@/components/icons/github";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { HighlightList } from "@/components/work/highlight-list";
@@ -86,7 +87,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                 rel="noopener noreferrer"
                 className="mono-label flex items-center gap-2 text-muted-foreground hover:text-brand"
               >
-                <GitBranch aria-hidden="true" className="size-4" />
+                <GitHubIcon className="size-4" />
                 {repo.label}
               </a>
             </li>
