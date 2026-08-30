@@ -14,13 +14,29 @@ const typeScale = [
 ];
 
 const colors = [
-  { token: "--background", utility: "bg-background", hex: "#0F0D0B", note: "warm near-black" },
-  { token: "--foreground", utility: "text-foreground", hex: "#EDE8E1", note: "warm off-white" },
-  { token: "--muted", utility: "bg-muted", hex: "#1A1614", note: "raised surface" },
-  { token: "--muted-foreground", utility: "text-muted-foreground", hex: "#A39A90", note: "secondary text" },
-  { token: "--border", utility: "border-border", hex: "#2A2422", note: "hairline borders" },
-  { token: "--accent", utility: "text-accent", hex: "#F2A03D", note: "amber — restricted use" },
-  { token: "--accent-foreground", utility: "text-accent-foreground", hex: "#0F0D0B", note: "text on accent fills" },
+  { label: "background", token: "--background", utility: "bg-background", hex: "#FBFCFD", note: "cool near-white" },
+  { label: "foreground", token: "--foreground", utility: "text-foreground", hex: "#10151C", note: "near-black, faint blue cast" },
+  { label: "muted", token: "--muted", utility: "bg-muted", hex: "#F0F4F9", note: "raised surface" },
+  { label: "muted-foreground", token: "--muted-foreground", utility: "text-muted-foreground", hex: "#56637A", note: "secondary text" },
+  { label: "border", token: "--border", utility: "border-border", hex: "#E1E8F0", note: "hairline borders" },
+  { label: "brand", token: "--brand", utility: "text-brand / bg-brand / border-brand", hex: "#1E56C8", note: "read or clicked only" },
+  { label: "brand-foreground", token: "--brand-foreground", utility: "text-brand-foreground", hex: "#FFFFFF", note: "text on brand fills" },
+  { label: "sky", token: "--sky", utility: "bg-sky", hex: "#CFE3FB", note: "surface only, never text" },
+  { label: "accent (shadcn surface)", token: "--accent", utility: "bg-accent", hex: "#F0F4F9", note: "shadcn-internal hover surface, never brand" },
+  { label: "accent-foreground (shadcn surface)", token: "--accent-foreground", utility: "text-accent-foreground", hex: "#10151C", note: "shadcn-internal, pinned to foreground" },
+];
+
+// Ratios computed from the hex values with the WCAG 2.x relative-luminance
+// formula. Kept here so the page states the same numbers the palette was
+// signed off against.
+const contrast = [
+  { pair: "foreground on background", ratio: "17.84:1", min: "7:1", pass: true, fg: "--foreground", bg: "--background" },
+  { pair: "muted-foreground on background", ratio: "5.91:1", min: "4.5:1", pass: true, fg: "--muted-foreground", bg: "--background" },
+  { pair: "brand on background", ratio: "6.35:1", min: "4.5:1", pass: true, fg: "--brand", bg: "--background" },
+  { pair: "brand on muted", ratio: "5.90:1", min: "4.5:1", pass: true, fg: "--brand", bg: "--muted" },
+  { pair: "brand-foreground on brand", ratio: "6.52:1", min: "4.5:1", pass: true, fg: "--brand-foreground", bg: "--brand" },
+  { pair: "foreground on sky", ratio: "13.99:1", min: "4.5:1", pass: true, fg: "--foreground", bg: "--sky" },
+  { pair: "foreground on muted", ratio: "16.59:1", min: "7:1", pass: true, fg: "--foreground", bg: "--muted" },
 ];
 
 const spacing = [
@@ -33,7 +49,7 @@ const spacing = [
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="border-t border-border py-12">
-      <h2 className="mono-label mb-8 text-accent">{title}</h2>
+      <h2 className="mono-label mb-8 text-brand">{title}</h2>
       {children}
     </section>
   );
@@ -70,11 +86,12 @@ export default function StyleguidePage() {
                 style={{ backgroundColor: `var(${c.token})` }}
               />
               <div className="p-3">
-                <div className="mono-label">{c.token}</div>
+                <div className="mono-label">{c.label}</div>
                 <div className="mono-label text-muted-foreground">
-                  {c.hex} · {c.utility}
+                  {c.hex} · {c.token}
                 </div>
                 <div className="mt-1 text-small text-muted-foreground">{c.note}</div>
+                <div className="mt-1 text-small text-muted-foreground">{c.utility}</div>
               </div>
             </div>
           ))}
@@ -86,11 +103,62 @@ export default function StyleguidePage() {
             text-muted-foreground — secondary text, metadata, captions
           </p>
           <p className="text-body">
-            <span className="text-accent">text-accent</span> — markers, hover, separators, active
-            nav, small marks only
+            <a href="#top" className="text-brand underline">
+              text-brand
+            </a>{" "}
+            — links, markers, separators, active nav, focus outlines. Never body text or headings.
           </p>
-          <p className="inline-block w-fit bg-accent px-3 py-1 text-body text-accent-foreground">
-            accent-foreground on an accent fill
+          <p className="inline-block w-fit bg-brand px-3 py-1 text-body text-brand-foreground">
+            brand-foreground on a brand fill
+          </p>
+        </div>
+      </Section>
+
+      <Section title="Contrast ratios">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-small">
+            <thead>
+              <tr className="border-b border-border text-left">
+                <th className="mono-label py-2 pr-6 font-normal">Pair</th>
+                <th className="mono-label py-2 pr-6 font-normal">Sample</th>
+                <th className="mono-label py-2 pr-6 font-normal">Ratio</th>
+                <th className="mono-label py-2 pr-6 font-normal">Required</th>
+                <th className="mono-label py-2 font-normal">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contrast.map((c) => (
+                <tr key={c.pair} className="border-b border-border">
+                  <td className="py-3 pr-6">{c.pair}</td>
+                  <td className="py-3 pr-6">
+                    <span
+                      className="inline-block px-2 py-1"
+                      style={{ backgroundColor: `var(${c.bg})`, color: `var(${c.fg})` }}
+                    >
+                      Sample text
+                    </span>
+                  </td>
+                  <td className="py-3 pr-6 font-mono">{c.ratio}</td>
+                  <td className="py-3 pr-6 font-mono text-muted-foreground">{c.min}</td>
+                  <td className="py-3 font-mono">{c.pass ? "PASS" : "FAIL"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      <Section title="Sky as a large fill">
+        <p className="mb-4 max-w-prose text-small text-muted-foreground">
+          --sky is a surface only. The text below is --foreground, at 13.99:1 against sky. Text is
+          never set in --sky, and --sky is never used for an interactive element.
+        </p>
+        <div className="bg-sky px-gutter py-16">
+          <h3 className="text-h2 text-foreground">Foreground text on a sky fill</h3>
+          <p className="mt-4 max-w-prose text-body-lg text-foreground">
+            Section backgrounds, marquee strips, decorative blocks and screenshot frames are what
+            this colour is for. It carries a whole band of the page without competing with the
+            text sitting on it.
           </p>
         </div>
       </Section>
@@ -118,19 +186,16 @@ export default function StyleguidePage() {
 
       <Section title="Focus states">
         <p className="mb-4 max-w-prose text-small text-muted-foreground">
-          Tab through these. Each should show a 2px accent outline offset by 2px.
+          Tab through these. Each should show a 2px brand outline offset by 2px.
         </p>
         <div className="flex flex-wrap items-center gap-4">
           <button type="button" className="border border-border bg-muted px-4 py-2 text-small">
             Button one
           </button>
-          <button
-            type="button"
-            className="bg-foreground px-4 py-2 text-small text-background"
-          >
+          <button type="button" className="bg-brand px-4 py-2 text-small text-brand-foreground">
             Button two
           </button>
-          <a href="#top" className="text-small underline hover:text-accent">
+          <a href="#top" className="text-small text-brand underline">
             A link
           </a>
         </div>
