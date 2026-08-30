@@ -45,7 +45,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             Skip to content
           </a>
           <SiteNav />
-          <main id="main" className="flex-1">
+          {/* tabIndex={-1}: without it a skip link only scrolls — focus stays on
+              body and the next Tab can fall back into the nav. */}
+          <main id="main" tabIndex={-1} className="flex-1 outline-none">
             {children}
           </main>
           <SiteFooter />

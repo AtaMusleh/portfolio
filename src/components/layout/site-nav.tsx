@@ -17,7 +17,10 @@ export function SiteNav() {
     <header className="sticky top-0 z-50 border-b border-border bg-background">
       <Container>
         <nav className="flex items-center justify-between py-4" aria-label="Main">
-          <Link href="/" className="mono-label text-foreground hover:text-brand">
+          <Link
+            href="/"
+            className="mono-label flex min-h-11 items-center text-foreground hover:text-brand md:min-h-0"
+          >
             {site.name}
           </Link>
 
@@ -29,7 +32,7 @@ export function SiteNav() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="mono-label text-muted-foreground hover:text-brand"
+                    className="mono-label flex min-h-11 items-center text-muted-foreground hover:text-brand md:min-h-0"
                   >
                     {link.label}
                   </Link>
@@ -39,7 +42,7 @@ export function SiteNav() {
 
             <a
               href={`mailto:${site.email}`}
-              className="mono-label text-muted-foreground hover:text-brand sm:hidden"
+              className="mono-label flex min-h-11 items-center text-muted-foreground hover:text-brand sm:hidden"
             >
               Email
             </a>
@@ -51,7 +54,7 @@ export function SiteNav() {
                 href={site.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mono-label hidden items-center gap-2 rounded-full border border-border px-3 py-1.5 text-muted-foreground transition duration-150 hover:bg-muted hover:text-brand sm:flex"
+                className="mono-label hidden min-h-11 items-center gap-2 rounded-full border border-border px-3 py-1.5 text-muted-foreground transition duration-150 hover:bg-muted hover:text-brand sm:flex md:min-h-0"
               >
                 <FileDown aria-hidden="true" className="size-4" />
                 Resume

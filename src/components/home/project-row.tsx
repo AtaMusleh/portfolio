@@ -63,7 +63,7 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
               row past its height budget at wide viewports; it right-aligns
               inside cols 7-12 rather than stretching across them. */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-[16/10] w-full max-w-[480px] overflow-hidden border border-border bg-sky lg:ml-auto">
+            <div className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-sky lg:ml-auto lg:max-w-[480px]">
               {project.image ? (
                 <Image
                   src={project.image}

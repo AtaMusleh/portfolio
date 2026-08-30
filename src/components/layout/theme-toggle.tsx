@@ -28,7 +28,7 @@ export function ThemeToggle() {
   // Before mount the resolved theme is unknowable on the server, so render a
   // placeholder of identical size. The nav does not shift when it swaps in.
   if (!mounted) {
-    return <span aria-hidden="true" className="block size-8 shrink-0" />;
+    return <span aria-hidden="true" className="block size-11 shrink-0 md:size-8" />;
   }
 
   const current: ThemeName = ORDER.includes(theme as ThemeName) ? (theme as ThemeName) : "system";
@@ -41,7 +41,7 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(next)}
       aria-label={`Switch to ${LABELS[next]} theme`}
-      className="flex size-8 shrink-0 items-center justify-center text-muted-foreground hover:text-brand"
+      className="flex size-11 shrink-0 items-center justify-center text-muted-foreground hover:text-brand md:size-8"
     >
       <Icon aria-hidden="true" className="size-4" />
     </button>

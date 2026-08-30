@@ -21,16 +21,27 @@ const INTEREST_ICONS: Record<string, LucideIcon> = {
 // `dark:data-active:text-foreground`, which is a more specific variant stack
 // than `data-active:text-brand` and would otherwise win in dark mode.
 const TRIGGER =
-  "mono-label rounded-none px-0 pb-3 text-muted-foreground after:bg-brand " +
+  // min-h-11 below md: the trigger is a touch target, and its natural height is
+  // well under 44px. outline-2/outline-brand overrides the shadcn default 1px
+  // ring so the focus indicator matches the rest of the site.
+  "mono-label min-h-11 min-w-11 justify-start rounded-none px-0 pb-3 text-muted-foreground after:bg-brand md:min-h-0 md:min-w-0 " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand " +
   "data-active:bg-transparent data-active:text-brand " +
   "dark:text-muted-foreground dark:data-active:text-brand";
+
+// Radix gives the active panel tabindex=0, and shadcn's base sets outline-none
+// on it — that would leave a focusable element with no visible focus ring.
+// focus-visible:outline-solid is required: shadcn's base sets outline-none,
+// which zeroes --tw-outline-style, and outline-2 only sets the width.
+const PANEL =
+  "focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 export function AboutTabs({ age }: { age: number }) {
   const current = experience[0];
 
   return (
     <Tabs defaultValue="me" className="gap-0">
-      <TabsList variant="line" className="h-auto gap-8 p-0">
+      <TabsList variant="line" className="h-auto gap-4 p-0 md:gap-8">
         <TabsTrigger value="me" className={TRIGGER}>
           Me
         </TabsTrigger>
@@ -45,7 +56,7 @@ export function AboutTabs({ age }: { age: number }) {
       {/* min-h keeps the block a fixed size across tabs so switching does not
           make the page jump. */}
       <div className="mt-8 min-h-[18rem] border border-border bg-muted p-8 md:p-12">
-        <TabsContent value="me">
+        <TabsContent value="me" className={PANEL}>
           <p className="max-w-prose text-body-lg text-foreground">{about.intro}</p>
           <p className="mono-label mt-8 text-muted-foreground">
             {age} years old
@@ -60,7 +71,7 @@ export function AboutTabs({ age }: { age: number }) {
           </p>
         </TabsContent>
 
-        <TabsContent value="education">
+        <TabsContent value="education" className={PANEL}>
           <div className="flex items-start gap-4">
             <GraduationCap aria-hidden="true" className="mt-1 size-5 shrink-0 text-brand" />
             <div>
@@ -74,7 +85,7 @@ export function AboutTabs({ age }: { age: number }) {
           </div>
         </TabsContent>
 
-        <TabsContent value="interests">
+        <TabsContent value="interests" className={PANEL}>
           <ul className="flex flex-wrap gap-3">
             {about.interests.map((interest) => {
               const Icon = INTEREST_ICONS[interest] ?? Sparkles;

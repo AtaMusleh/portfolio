@@ -10,7 +10,7 @@ export function Contact() {
     <div>
       <a
         href={`mailto:${site.email}`}
-        className="block break-words text-h2 text-foreground transition duration-150 hover:text-brand"
+        className="block min-h-11 break-words text-h2 text-foreground transition duration-150 hover:text-brand"
       >
         {site.email}
       </a>
@@ -26,9 +26,10 @@ export function Contact() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="mono-label text-muted-foreground hover:text-brand"
+              className="mono-label flex min-h-11 items-center text-muted-foreground hover:text-brand md:min-h-0"
             >
               {link.label}
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </li>
         ))}

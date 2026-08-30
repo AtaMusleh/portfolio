@@ -64,8 +64,12 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
     <Container>
       {/* HEADER */}
       <div className="border-b border-border py-section">
-        <Link href="/#work" className="mono-label text-muted-foreground hover:text-brand">
-          ← Selected Work
+        <Link
+          href="/#work"
+          className="mono-label inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
+        >
+          <span aria-hidden="true">←</span>
+          Selected Work
         </Link>
 
         <h1 className="mt-10 text-display text-foreground">{project.name}</h1>
@@ -85,10 +89,11 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mono-label flex items-center gap-2 text-muted-foreground hover:text-brand"
+                className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
               >
                 <GitHubIcon className="size-4" />
                 {repo.label}
+                <span className="sr-only"> for {project.name} (opens in a new tab)</span>
               </a>
             </li>
           ))}
@@ -97,10 +102,11 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="mono-label flex items-center gap-2 text-muted-foreground hover:text-brand"
+              className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
             >
               <ExternalLink aria-hidden="true" className="size-4" />
               Live site
+              <span className="sr-only"> for {project.name} (opens in a new tab)</span>
             </a>
           </li>
         </ul>

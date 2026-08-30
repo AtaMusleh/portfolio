@@ -11,7 +11,8 @@ import { marqueeItems } from "@/content";
  */
 export function Marquee() {
   return (
-    <div className="w-full overflow-hidden border-y border-border bg-sky py-10" aria-label="Stack">
+    <div aria-hidden="true"
+      className="w-full overflow-hidden border-y border-border bg-sky py-10">
       <ul className="flex w-max flex-nowrap items-center gap-6 px-gutter">
         {marqueeItems.map((item, index) => (
           <li key={item} className="flex shrink-0 items-center gap-6">

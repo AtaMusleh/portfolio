@@ -113,7 +113,7 @@
 
   /* mono-sm is uppercase by convention — the `mono-label` utility below
      bundles the size with font-mono and uppercase. */
-  --text-mono-sm: 0.8125rem;
+  --text-mono-sm: 0.875rem; /* 14px: the accessibility floor for body-adjacent text */
   --text-mono-sm--line-height: 1.4;
   --text-mono-sm--letter-spacing: 0.05em;
   --text-mono-sm--font-weight: 400;

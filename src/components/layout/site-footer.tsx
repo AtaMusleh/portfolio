@@ -31,11 +31,12 @@ export function SiteFooter() {
               <li key={label}>
                 <a
                   href={href}
-                  className="mono-label flex items-center gap-2 text-muted-foreground hover:text-brand"
+                  className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
                   <Icon aria-hidden="true" className="size-4" />
                   {label}
+                  {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
                 </a>
               </li>
             ))}
