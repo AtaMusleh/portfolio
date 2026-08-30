@@ -2,43 +2,118 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* ============================================================================
+   ACCENT USAGE RULE
+
+   --accent (amber, #F2A03D) is reserved for:
+     - numbered section markers
+     - link hover states
+     - marquee separators
+     - active navigation state
+     - small decorative marks
+
+   The accent is NEVER used for body text, headings, or large filled areas.
+   Body and heading text is always --foreground or --muted-foreground.
+   ============================================================================
+
+   This site is dark-only. There is one palette and it applies always: no
+   light-mode :root block, no .dark class switching, no theme toggle.
+   Because the palette is always dark, the `dark:` variant below is defined to
+   always match, so any dark: refinement in a component is unconditionally on.
+   ============================================================================ */
+
+@custom-variant dark (&);
 
 @theme inline {
+  /* --- Color ------------------------------------------------------------ */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Derived tokens: required by the shadcn primitives already in
+     src/components/ui. All resolve to the warm dark palette above. */
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+
+  /* --- Typefaces -------------------------------------------------------- */
+  /* --font-sans and --font-mono are set on <html> by next/font (see
+     app/layout.tsx). next/font emits unlayered CSS, which outranks Tailwind's
+     @layer theme defaults, so `font-sans` and `font-mono` resolve to Geist and
+     Geist Mono without needing to be re-declared here. */
+  --font-heading: var(--font-sans);
+
+  /* --- Type scale ------------------------------------------------------- */
+  /* Fluid via clamp() so sizes interpolate between mobile and desktop rather
+     than stepping at breakpoints. The negative tracking on the large sizes is
+     deliberate: it is what makes large type look set rather than default.
+     Do not remove it. */
+
+  --text-display: clamp(3rem, 10vw, 8rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 500;
+
+  --text-h1: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 500;
+
+  --text-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 500;
+
+  --text-h3: clamp(1.25rem, 2vw, 1.5rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 500;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: normal;
+  --text-body-lg--font-weight: 400;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: normal;
+  --text-body--font-weight: 400;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-small--letter-spacing: normal;
+  --text-small--font-weight: 400;
+
+  /* mono-sm is uppercase by convention — the `mono-label` utility below
+     bundles the size with font-mono and uppercase. */
+  --text-mono-sm: 0.8125rem;
+  --text-mono-sm--line-height: 1.4;
+  --text-mono-sm--letter-spacing: 0.05em;
+  --text-mono-sm--font-weight: 400;
+
+  /* --- Spacing and layout ----------------------------------------------- */
+  /* py-section — vertical rhythm between major sections */
+  --spacing-section: clamp(6rem, 12vw, 10rem);
+  /* px-gutter — horizontal page gutter */
+  --spacing-gutter: clamp(1.5rem, 5vw, 6rem);
+  /* max-w-page — outer content width, centred with mx-auto */
+  --container-page: 1440px;
+  /* max-w-prose — reading column (overrides Tailwind's 65ch default) */
+  --container-prose: 68ch;
+
+  /* --- Radii ------------------------------------------------------------ */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -48,83 +123,90 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* The single palette. Warm-tinted dark; applies always. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  /* Tells the UA to render scrollbars, form controls and the canvas dark. */
+  color-scheme: dark;
+
+  --background: oklch(0.1607 0.0054 67.43); /* #0F0D0B — warm near-black */
+  --foreground: oklch(0.933 0.0108 76.6); /* #EDE8E1 — warm off-white, never pure #FFF */
+  --muted: oklch(0.2042 0.0076 48.33); /* #1A1614 — raised surface */
+  --muted-foreground: oklch(0.691 0.0179 70.44); /* #A39A90 — secondary text */
+  --border: oklch(0.2663 0.0098 39.32); /* #2A2422 — hairline borders */
+  --accent: oklch(0.7709 0.1467 66.98); /* #F2A03D — amber, see usage rule above */
+  --accent-foreground: oklch(0.1607 0.0054 67.43); /* #0F0D0B — text on accent fills */
+
+  /* Derived from the seven tokens above, for the shadcn primitives. */
+  --card: var(--muted);
+  --card-foreground: var(--foreground);
+  --popover: var(--muted);
+  --popover-foreground: var(--foreground);
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
+  --secondary: var(--border);
+  --secondary-foreground: var(--foreground);
+  --input: var(--border);
+  --ring: var(--accent);
+  --destructive: oklch(0.637 0.187 28.5);
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+/* mono-sm as it is actually used: mono, uppercase, wide tracking. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-sm);
+  line-height: var(--text-mono-sm--line-height);
+  letter-spacing: var(--text-mono-sm--letter-spacing);
+  font-weight: var(--text-mono-sm--font-weight);
+  text-transform: uppercase;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
-    @apply font-sans;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible focus for every interactive element. The default ring is replaced,
+     never simply removed. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+/* Site-wide reduced-motion safety net. Individual components still handle
+   reduced motion themselves; this catches anything that does not. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
   }
 }
