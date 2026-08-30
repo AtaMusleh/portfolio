@@ -6,6 +6,8 @@ export { projects } from "./projects"
 export { experience } from "./experience"
 export { marqueeItems } from "./marquee"
 export { site } from "./site"
+export type { Education } from "./about"
+export { about } from "./about"
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug)

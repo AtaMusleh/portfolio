@@ -204,6 +204,24 @@
   --destructive: oklch(0.7106 0.1661 22.22); /* #F87171 — 6.95:1 on --background */
 }
 
+/* Outlined display type, used for the last word of the name in the hero.
+   Written as progressive enhancement: the base rule paints solid brand, and
+   only a browser that actually supports -webkit-text-stroke swaps to a
+   transparent fill. A browser without support therefore renders readable solid
+   text rather than an invisible transparent one.
+   The stroke scales with the type so it stays ~2px at display size and thins
+   out on small viewports instead of swallowing the counters. */
+.text-stroked {
+  color: var(--brand);
+}
+
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .text-stroked {
+    color: transparent;
+    -webkit-text-stroke: clamp(1px, 0.18vw, 2px) var(--brand);
+  }
+}
+
 /* mono-sm as it is actually used: mono, uppercase, wide tracking. */
 @utility mono-label {
   font-family: var(--font-mono);

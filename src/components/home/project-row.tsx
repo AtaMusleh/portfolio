@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,12 +39,10 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
               <h3 className="text-h2 text-foreground transition duration-150 group-hover:text-brand group-focus-visible:text-brand">
                 {project.name}
               </h3>
-              <span
+              <ArrowRight
                 aria-hidden="true"
-                className="text-body text-muted-foreground transition duration-150 group-hover:translate-x-1 group-hover:text-brand group-focus-visible:translate-x-1 group-focus-visible:text-brand"
-              >
-                →
-              </span>
+                className="size-5 shrink-0 text-muted-foreground transition duration-150 group-hover:translate-x-1 group-hover:text-brand group-focus-visible:translate-x-1 group-focus-visible:text-brand"
+              />
             </div>
 
             <p className="mt-2 max-w-prose text-body text-muted-foreground">{project.tagline}</p>

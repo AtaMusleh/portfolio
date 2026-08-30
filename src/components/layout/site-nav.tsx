@@ -1,3 +1,4 @@
+import { FileDown } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
@@ -6,6 +7,7 @@ import { site } from "@/content";
 
 const navLinks = [
   { label: "Work", href: "/#work" },
+  { label: "About", href: "/#about" },
   { label: "Experience", href: "/#experience" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -20,7 +22,7 @@ export function SiteNav() {
           </Link>
 
           <div className="flex items-center gap-6 sm:gap-8">
-            {/* Below sm the three anchors collapse to a single mailto — no menu,
+            {/* Below sm the anchors collapse to a single mailto — no menu,
                 no JavaScript, so this stays a server component. */}
             <ul className="hidden items-center gap-8 sm:flex">
               {navLinks.map((link) => (
@@ -41,6 +43,20 @@ export function SiteNav() {
             >
               Email
             </a>
+
+            {/* Renders nothing at all while resumeUrl is null — no empty
+                element, so no leftover gap in the flex row. */}
+            {site.resumeUrl ? (
+              <a
+                href={site.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mono-label hidden items-center gap-2 rounded-full border border-border px-3 py-1.5 text-muted-foreground transition duration-150 hover:bg-muted hover:text-brand sm:flex"
+              >
+                <FileDown aria-hidden="true" className="size-4" />
+                Resume
+              </a>
+            ) : null}
 
             <ThemeToggle />
           </div>

@@ -7,6 +7,8 @@ export type Site = {
   email: string
   github: string
   linkedin: string
+  /** Set to "/ata-musleh-cv.pdf" once the file exists; the nav button hides while null. */
+  resumeUrl: string | null
 }
 
 export const site: Site = {
@@ -20,4 +22,5 @@ export const site: Site = {
   email: "atamusleh3@gmail.com",
   github: "https://github.com/AtaMusleh",
   linkedin: "https://linkedin.com/in/ata-musleh-53600b265",
+  resumeUrl: null,
 }

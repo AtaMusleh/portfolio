@@ -1,3 +1,7 @@
+import { Mail } from "lucide-react";
+
+import { GitHubIcon } from "@/components/icons/github";
+import { LinkedInIcon } from "@/components/icons/linkedin";
 import { Container } from "@/components/layout/Container";
 import { site } from "@/content";
 
@@ -7,9 +11,9 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   const links = [
-    { label: "Email", href: `mailto:${site.email}`, external: false },
-    { label: "GitHub", href: site.github, external: true },
-    { label: "LinkedIn", href: site.linkedin, external: true },
+    { label: "Email", href: `mailto:${site.email}`, external: false, Icon: Mail },
+    { label: "GitHub", href: site.github, external: true, Icon: GitHubIcon },
+    { label: "LinkedIn", href: site.linkedin, external: true, Icon: LinkedInIcon },
   ];
 
   return (
@@ -23,14 +27,15 @@ export function SiteFooter() {
           </div>
 
           <ul className="flex flex-col gap-3 sm:items-end">
-            {links.map((link) => (
-              <li key={link.label}>
+            {links.map(({ label, href, external, Icon }) => (
+              <li key={label}>
                 <a
-                  href={link.href}
-                  className="mono-label text-muted-foreground hover:text-brand"
-                  {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  href={href}
+                  className="mono-label flex items-center gap-2 text-muted-foreground hover:text-brand"
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
-                  {link.label}
+                  <Icon aria-hidden="true" className="size-4" />
+                  {label}
                 </a>
               </li>
             ))}
