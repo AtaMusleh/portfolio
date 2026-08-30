@@ -4,7 +4,6 @@ import type { Project } from "./types"
 export type { Highlight, Project, Role, Stat } from "./types"
 export { projects } from "./projects"
 export { experience } from "./experience"
-export { stats } from "./stats"
 export { marqueeItems } from "./marquee"
 export { site } from "./site"
 

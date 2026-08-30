@@ -2,28 +2,18 @@ import type { Role } from "./types"
 
 export const experience: Role[] = [
   {
-    company: "Jordan Kuwait Bank",
-    title: "TODO: job title",
-    period: "TODO: e.g. 2022 — 2025",
-    location: "TODO: city, country",
-    description:
-      "Built and maintained banking applications on the Appian low-code platform for a regional commercial bank.",
-    bullets: [
-      "Designed SAIL interfaces for internal banking operations used by branch and back-office staff.",
-      "Wrote expression rules encoding banking logic, validation, and data transformation.",
-      "Modelled record types and process models against core banking data.",
-      "TODO: add one bullet about scale, users, or a specific system if you can name it.",
-    ],
-  },
-  {
     company: "Experts Turnkey Solutions",
-    title: "TODO: job title",
-    period: "TODO: e.g. 2020 — 2022",
-    location: "TODO: city, country",
-    description: "Delivered Appian applications for banking and enterprise clients.",
+    title: "Software Developer",
+    period: "October 2025 — Present",
+    location: "Ramallah, Palestine",
+    description:
+      "Building banking applications on the Appian platform for clients including Jordan Kuwait Bank.",
     bullets: [
-      "Built SAIL interfaces and process models for client-facing banking workflows.",
-      "TODO: add one or two bullets about clients, delivery, or responsibilities.",
+      "Design SAIL interfaces used daily by branch and back-office staff.",
+      "Write expression rules encoding banking logic, validation, and data transformation.",
+      "Model record types and process models against core banking data.",
+      "Ship production software where correctness and auditability are requirements, not preferences.",
+      "TODO: one concrete thing you shipped — a named workflow or process, and roughly who uses it.",
     ],
   },
 ]
