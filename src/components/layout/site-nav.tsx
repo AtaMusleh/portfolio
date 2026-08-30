@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { site } from "@/content";
 
 const navLinks = [
@@ -18,24 +19,31 @@ export function SiteNav() {
             {site.name}
           </Link>
 
-          {/* Below sm the three anchors collapse to a single mailto — no menu,
-              no JavaScript, so this stays a server component. */}
-          <ul className="hidden items-center gap-8 sm:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="mono-label text-muted-foreground hover:text-brand">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center gap-6 sm:gap-8">
+            {/* Below sm the three anchors collapse to a single mailto — no menu,
+                no JavaScript, so this stays a server component. */}
+            <ul className="hidden items-center gap-8 sm:flex">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="mono-label text-muted-foreground hover:text-brand"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          <a
-            href={`mailto:${site.email}`}
-            className="mono-label text-muted-foreground hover:text-brand sm:hidden"
-          >
-            Email
-          </a>
+            <a
+              href={`mailto:${site.email}`}
+              className="mono-label text-muted-foreground hover:text-brand sm:hidden"
+            >
+              Email
+            </a>
+
+            <ThemeToggle />
+          </div>
         </nav>
       </Container>
     </header>

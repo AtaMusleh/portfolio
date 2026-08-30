@@ -21,19 +21,18 @@
    --foreground. They must NEVER hold a brand color — use --brand for that.
    ============================================================================
 
-   This site is light-only. There is one palette and it applies always: no dark
-   :root block, no .dark class switching, no theme toggle.
+   The site has two palettes: the light one on :root and the dark one under
+   .dark. next-themes writes that class onto <html> from a blocking script in
+   the head, so the first paint is already correct.
 
-   The `dark:` variant is redefined below to a selector that can never match, so
-   the dark-mode refinements baked into the shadcn primitives in
-   src/components/ui are inert. Removing the declaration outright would be
-   worse: `dark:` would fall back to Tailwind's built-in prefers-color-scheme
-   media query, and those primitives would render dark on a machine set to dark
-   mode. Neutralising the variant fixes every primitive at once and keeps any
-   shadcn component added later inert by default.
+   The `dark:` variant is class-based rather than the built-in
+   prefers-color-scheme media query, so it follows the toggle — including an
+   explicit light choice on a machine set to dark. This replaces the earlier
+   `&:not(*)` form, which deliberately matched nothing while the site was
+   single-palette.
    ============================================================================ */
 
-@custom-variant dark (&:not(*));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   /* --- Color ------------------------------------------------------------ */
@@ -173,6 +172,38 @@
   --radius: 0.625rem;
 }
 
+/* The dark palette. Same token contract, same usage rules; every pair was
+   checked against WCAG AA/AAA before being committed. */
+.dark {
+  color-scheme: dark;
+
+  --background: oklch(0.1665 0.0124 254.17); /* #0B0F14 — cool near-black */
+  --foreground: oklch(0.9431 0.0132 251.56); /* #E6EDF5 — cool off-white, never pure #FFF */
+  --muted: oklch(0.2155 0.0182 255.72); /* #141A22 — raised surface */
+  --muted-foreground: oklch(0.6782 0.0324 256.05); /* #8B99AC — secondary text */
+  --border: oklch(0.2855 0.0239 253.67); /* #222B36 — hairline borders */
+  --brand: oklch(0.6952 0.1608 258.59); /* #5B9CFF — light blue; #1E56C8 fails on dark */
+  --brand-foreground: oklch(0.1665 0.0124 254.17); /* #0B0F14 — text on brand fills */
+  --sky: oklch(0.2764 0.0481 253.09); /* #16293F — deep blue surface */
+
+  /* shadcn-internal, pinned to the neutral surface pair. Never brand color. */
+  --accent: var(--muted); /* #141A22 */
+  --accent-foreground: var(--foreground); /* #E6EDF5 */
+
+  /* Derived from the tokens above, for the shadcn primitives. */
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --input: var(--border);
+  --ring: var(--brand);
+  --destructive: oklch(0.7106 0.1661 22.22); /* #F87171 — 6.95:1 on --background */
+}
+
 /* mono-sm as it is actually used: mono, uppercase, wide tracking. */
 @utility mono-label {
   font-family: var(--font-mono);
@@ -212,6 +243,21 @@
   ::selection {
     background-color: var(--brand);
     color: var(--brand-foreground);
+  }
+
+  /* Theme transition. Three named properties, never `transition: all` — the
+     point is to soften the palette swap, not to slow down every hover on the
+     site. Utilities live in a later cascade layer, so a component's own
+     `transition duration-150` still wins for its hover states.
+     The prefers-reduced-motion block below zeroes this along with everything
+     else, since it targets transition-duration on * with !important. */
+  *,
+  *::before,
+  *::after {
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
   }
 }
 

@@ -14,29 +14,30 @@ const typeScale = [
 ];
 
 const colors = [
-  { label: "background", token: "--background", utility: "bg-background", hex: "#FBFCFD", note: "cool near-white" },
-  { label: "foreground", token: "--foreground", utility: "text-foreground", hex: "#10151C", note: "near-black, faint blue cast" },
-  { label: "muted", token: "--muted", utility: "bg-muted", hex: "#F0F4F9", note: "raised surface" },
-  { label: "muted-foreground", token: "--muted-foreground", utility: "text-muted-foreground", hex: "#56637A", note: "secondary text" },
-  { label: "border", token: "--border", utility: "border-border", hex: "#E1E8F0", note: "hairline borders" },
-  { label: "brand", token: "--brand", utility: "text-brand / bg-brand / border-brand", hex: "#1E56C8", note: "read or clicked only" },
-  { label: "brand-foreground", token: "--brand-foreground", utility: "text-brand-foreground", hex: "#FFFFFF", note: "text on brand fills" },
-  { label: "sky", token: "--sky", utility: "bg-sky", hex: "#CFE3FB", note: "surface only, never text" },
-  { label: "accent (shadcn surface)", token: "--accent", utility: "bg-accent", hex: "#F0F4F9", note: "shadcn-internal hover surface, never brand" },
-  { label: "accent-foreground (shadcn surface)", token: "--accent-foreground", utility: "text-accent-foreground", hex: "#10151C", note: "shadcn-internal, pinned to foreground" },
+  { label: "background", token: "--background", utility: "bg-background", light: "#FBFCFD", dark: "#0B0F14", note: "cool near-white / cool near-black" },
+  { label: "foreground", token: "--foreground", utility: "text-foreground", light: "#10151C", dark: "#E6EDF5", note: "body and heading text" },
+  { label: "muted", token: "--muted", utility: "bg-muted", light: "#F0F4F9", dark: "#141A22", note: "raised surface" },
+  { label: "muted-foreground", token: "--muted-foreground", utility: "text-muted-foreground", light: "#56637A", dark: "#8B99AC", note: "secondary text" },
+  { label: "border", token: "--border", utility: "border-border", light: "#E1E8F0", dark: "#222B36", note: "hairline borders" },
+  { label: "brand", token: "--brand", utility: "text-brand / bg-brand / border-brand", light: "#1E56C8", dark: "#5B9CFF", note: "read or clicked only" },
+  { label: "brand-foreground", token: "--brand-foreground", utility: "text-brand-foreground", light: "#FFFFFF", dark: "#0B0F14", note: "text on brand fills" },
+  { label: "sky", token: "--sky", utility: "bg-sky", light: "#CFE3FB", dark: "#16293F", note: "surface only, never text" },
+  { label: "accent (shadcn surface)", token: "--accent", utility: "bg-accent", light: "#F0F4F9", dark: "#141A22", note: "shadcn-internal hover surface, never brand" },
+  { label: "accent-foreground (shadcn surface)", token: "--accent-foreground", utility: "text-accent-foreground", light: "#10151C", dark: "#E6EDF5", note: "shadcn-internal, pinned to foreground" },
+  { label: "destructive (shadcn)", token: "--destructive", utility: "text-destructive", light: "#C02626", dark: "#F87171", note: "shadcn-internal error colour" },
 ];
 
 // Ratios computed from the hex values with the WCAG 2.x relative-luminance
 // formula. Kept here so the page states the same numbers the palette was
 // signed off against.
 const contrast = [
-  { pair: "foreground on background", ratio: "17.84:1", min: "7:1", pass: true, fg: "--foreground", bg: "--background" },
-  { pair: "muted-foreground on background", ratio: "5.91:1", min: "4.5:1", pass: true, fg: "--muted-foreground", bg: "--background" },
-  { pair: "brand on background", ratio: "6.35:1", min: "4.5:1", pass: true, fg: "--brand", bg: "--background" },
-  { pair: "brand on muted", ratio: "5.90:1", min: "4.5:1", pass: true, fg: "--brand", bg: "--muted" },
-  { pair: "brand-foreground on brand", ratio: "6.52:1", min: "4.5:1", pass: true, fg: "--brand-foreground", bg: "--brand" },
-  { pair: "foreground on sky", ratio: "13.99:1", min: "4.5:1", pass: true, fg: "--foreground", bg: "--sky" },
-  { pair: "foreground on muted", ratio: "16.59:1", min: "7:1", pass: true, fg: "--foreground", bg: "--muted" },
+  { pair: "foreground on background", light: "17.84:1", dark: "16.29:1", min: "7:1", fg: "--foreground", bg: "--background" },
+  { pair: "muted-foreground on background", light: "5.91:1", dark: "6.64:1", min: "4.5:1", fg: "--muted-foreground", bg: "--background" },
+  { pair: "brand on background", light: "6.35:1", dark: "7.00:1", min: "4.5:1", fg: "--brand", bg: "--background" },
+  { pair: "brand on muted", light: "5.90:1", dark: "6.37:1", min: "4.5:1", fg: "--brand", bg: "--muted" },
+  { pair: "brand-foreground on brand", light: "6.52:1", dark: "7.00:1", min: "4.5:1", fg: "--brand-foreground", bg: "--brand" },
+  { pair: "foreground on sky", light: "13.99:1", dark: "12.51:1", min: "4.5:1", fg: "--foreground", bg: "--sky" },
+  { pair: "foreground on muted", light: "16.59:1", dark: "14.82:1", min: "7:1", fg: "--foreground", bg: "--muted" },
 ];
 
 const spacing = [
@@ -63,6 +64,12 @@ export default function StyleguidePage() {
         Every design token rendered so it can be checked by eye. This page is a reference, not a
         designed page.
       </p>
+      <p className="mt-4 max-w-prose border border-border bg-muted p-4 text-body text-foreground">
+        This page renders in the <strong>active theme</strong> — the swatches below show whichever
+        palette is currently applied. Use the toggle in the nav to switch. Both palettes&rsquo; hex
+        values are listed side by side on every swatch and in the contrast table, so the inactive
+        one can still be read.
+      </p>
 
       <Section title="Type scale">
         <div className="flex flex-col gap-8">
@@ -87,10 +94,18 @@ export default function StyleguidePage() {
               />
               <div className="p-3">
                 <div className="mono-label">{c.label}</div>
-                <div className="mono-label text-muted-foreground">
-                  {c.hex} · {c.token}
-                </div>
-                <div className="mt-1 text-small text-muted-foreground">{c.note}</div>
+                <div className="mono-label mt-1 text-muted-foreground">{c.token}</div>
+                <dl className="mt-2 flex gap-6">
+                  <div>
+                    <dt className="mono-label text-muted-foreground">Light</dt>
+                    <dd className="mono-label text-foreground">{c.light}</dd>
+                  </div>
+                  <div>
+                    <dt className="mono-label text-muted-foreground">Dark</dt>
+                    <dd className="mono-label text-foreground">{c.dark}</dd>
+                  </div>
+                </dl>
+                <div className="mt-2 text-small text-muted-foreground">{c.note}</div>
                 <div className="mt-1 text-small text-muted-foreground">{c.utility}</div>
               </div>
             </div>
@@ -120,8 +135,9 @@ export default function StyleguidePage() {
             <thead>
               <tr className="border-b border-border text-left">
                 <th className="mono-label py-2 pr-6 font-normal">Pair</th>
-                <th className="mono-label py-2 pr-6 font-normal">Sample</th>
-                <th className="mono-label py-2 pr-6 font-normal">Ratio</th>
+                <th className="mono-label py-2 pr-6 font-normal">Sample (active theme)</th>
+                <th className="mono-label py-2 pr-6 font-normal">Light</th>
+                <th className="mono-label py-2 pr-6 font-normal">Dark</th>
                 <th className="mono-label py-2 pr-6 font-normal">Required</th>
                 <th className="mono-label py-2 font-normal">Result</th>
               </tr>
@@ -138,9 +154,10 @@ export default function StyleguidePage() {
                       Sample text
                     </span>
                   </td>
-                  <td className="py-3 pr-6 font-mono">{c.ratio}</td>
+                  <td className="py-3 pr-6 font-mono">{c.light}</td>
+                  <td className="py-3 pr-6 font-mono">{c.dark}</td>
                   <td className="py-3 pr-6 font-mono text-muted-foreground">{c.min}</td>
-                  <td className="py-3 font-mono">{c.pass ? "PASS" : "FAIL"}</td>
+                  <td className="py-3 font-mono">PASS</td>
                 </tr>
               ))}
             </tbody>
@@ -150,7 +167,7 @@ export default function StyleguidePage() {
 
       <Section title="Sky as a large fill">
         <p className="mb-4 max-w-prose text-small text-muted-foreground">
-          --sky is a surface only. The text below is --foreground, at 13.99:1 against sky. Text is
+          --sky is a surface only. The text below is --foreground, at 13.99:1 in light and 12.51:1 in dark. Text is
           never set in --sky, and --sky is never used for an interactive element.
         </p>
         <div className="bg-sky px-gutter py-16">
