@@ -2,9 +2,12 @@ import { experience } from "@/content";
 
 export function ExperienceList() {
   return (
-    <ul className="flex flex-col gap-16">
+    <ul className="flex flex-col gap-8">
       {experience.map((role) => (
-        <li key={`${role.company}-${role.period}`}>
+        <li
+          key={`${role.company}-${role.period}`}
+          className="border border-border bg-muted p-8 md:p-12"
+        >
           <h3 className="text-h3 text-foreground">{role.company}</h3>
 
           <p className="mono-label mt-3 text-muted-foreground">

@@ -8,19 +8,16 @@ const links = [
 export function Contact() {
   return (
     <div>
-      {/* h3 semantically — Section already renders the h2 for this block. */}
-      <h3 className="text-h2 text-foreground">Get in touch</h3>
+      <a
+        href={`mailto:${site.email}`}
+        className="block break-words text-h2 text-foreground transition duration-150 hover:text-brand"
+      >
+        {site.email}
+      </a>
 
-      <p className="mt-6 max-w-prose text-body-lg text-muted-foreground">{site.availability}</p>
-
-      <p className="mt-10">
-        <a
-          href={`mailto:${site.email}`}
-          className="text-h3 text-foreground transition duration-150 hover:text-brand"
-        >
-          {site.email}
-        </a>
-      </p>
+      <div className="mt-10 border border-border bg-sky p-8 md:p-12">
+        <p className="max-w-prose text-body-lg text-foreground">{site.availability}</p>
+      </div>
 
       <ul className="mt-10 flex flex-wrap items-center gap-8">
         {links.map((link) => (

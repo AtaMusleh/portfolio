@@ -11,6 +11,7 @@ export type Project = {
   summary: string // 2-3 sentences, used at the top of the case study
   year: string
   role: string
+  image?: string // optional screenshot for the home-page media slot
   stack: string[]
   repos: { label: string; url: string }[]
   live: string

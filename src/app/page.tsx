@@ -11,8 +11,8 @@ export default function Home() {
     <>
       <Hero />
 
-      <Container>
-        <Section number="01" title="Selected Work" id="work">
+      <Container rules>
+        <Section number="01" title="Selected Work" id="work" meta="Four projects">
           <ProjectList />
         </Section>
       </Container>
@@ -21,11 +21,11 @@ export default function Home() {
       <Marquee />
 
       <Container>
-        <Section number="02" title="Experience" id="experience">
+        <Section number="02" title="Experience" id="experience" meta="Current role">
           <ExperienceList />
         </Section>
 
-        <Section number="03" title="Contact" id="contact">
+        <Section number="03" title="Contact" id="contact" meta="Get in touch">
           <Contact />
         </Section>
       </Container>
