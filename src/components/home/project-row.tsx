@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Reveal } from "@/components/motion/reveal";
 import type { Project } from "@/content";
 
 type ProjectRowProps = {
@@ -26,13 +27,16 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
   const sources = [...project.repos.map((repo) => repo.label), "Live"];
 
   return (
-    <li>
+    // One unit: the index, text and media share a single reveal.
+    <Reveal as="li" delay={index * 80}>
       <Link
         href={`/work/${project.slug}`}
         className="group block border-t border-border py-10 transition duration-150 hover:bg-muted focus-visible:bg-muted lg:py-12"
       >
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
-          <span className="mono-label text-brand lg:col-span-1 lg:pt-2">{number}</span>
+          <span className="mono-label text-brand lg:col-span-1 lg:pt-2">
+            {number}
+          </span>
 
           <div className="min-w-0 lg:col-span-5">
             <div className="flex items-baseline gap-3">
@@ -45,9 +49,13 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
               />
             </div>
 
-            <p className="mt-2 max-w-prose text-body text-muted-foreground">{project.tagline}</p>
+            <p className="mt-2 max-w-prose text-body text-muted-foreground">
+              {project.tagline}
+            </p>
 
-            <p className="mono-label mt-3 text-muted-foreground">{project.stack.join(" / ")}</p>
+            <p className="mono-label mt-3 text-muted-foreground">
+              {project.stack.join(" / ")}
+            </p>
 
             <p className="mono-label mt-3 text-muted-foreground">
               {sources.map((label, i) => (
@@ -74,13 +82,15 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
-                  <span className="mono-label text-muted-foreground">{project.name}</span>
+                  <span className="mono-label text-muted-foreground">
+                    {project.name}
+                  </span>
                 </div>
               )}
             </div>
           </div>
         </div>
       </Link>
-    </li>
+    </Reveal>
   );
 }

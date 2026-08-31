@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/motion/reveal";
 import type { Highlight } from "@/content";
 
 /**
@@ -12,7 +13,10 @@ export function HighlightList({ highlights }: { highlights: Highlight[] }) {
   return (
     <ol className="flex list-none flex-col">
       {highlights.map((highlight, index) => (
-        <li
+        // One unit, no internal stagger: these sit far apart, so each simply
+        // triggers on its own as you scroll.
+        <Reveal
+          as="li"
           key={highlight.title}
           className="border-t border-border py-12 first:border-t-0 first:pt-0 lg:py-16 lg:first:pt-0"
         >
@@ -27,17 +31,21 @@ export function HighlightList({ highlights }: { highlights: Highlight[] }) {
               <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
                 <div className="max-w-prose border border-transparent p-6">
                   <p className="mono-label text-muted-foreground">Problem</p>
-                  <p className="mt-4 text-body text-muted-foreground">{highlight.problem}</p>
+                  <p className="mt-4 text-body text-muted-foreground">
+                    {highlight.problem}
+                  </p>
                 </div>
 
                 <div className="max-w-prose border border-border bg-muted p-6">
                   <p className="mono-label text-brand">Approach</p>
-                  <p className="mt-4 text-body text-foreground">{highlight.approach}</p>
+                  <p className="mt-4 text-body text-foreground">
+                    {highlight.approach}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </li>
+        </Reveal>
       ))}
     </ol>
   );

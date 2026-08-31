@@ -279,6 +279,22 @@
   }
 }
 
+/* Reveal safety net.
+   Motion server-renders its initial styles, so the HTML for a revealed element
+   ships with inline opacity:0. These !important rules outrank inline styles
+   (author-important beats author-normal, inline included), which is what makes
+   them a real guard rather than a suggestion:
+   - under prefers-reduced-motion the element is final-state from the very first
+     paint, before the JS check in reveal.tsx has even run;
+   - the matching <noscript> block in app/layout.tsx covers JS being disabled.
+   Do not drop the !important — without it the inline style wins. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Site-wide reduced-motion safety net. Individual components still handle
    reduced motion themselves; this catches anything that does not. */
 @media (prefers-reduced-motion: reduce) {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { GitHubIcon } from "@/components/icons/github";
+import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { HighlightList } from "@/components/work/highlight-list";
@@ -15,7 +16,9 @@ export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/work/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps<"/work/[slug]">,
+): Promise<Metadata> {
   const { slug } = await props.params;
   const project = getProject(slug);
 
@@ -64,65 +67,85 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
     <Container>
       {/* HEADER */}
       <div className="border-b border-border py-section">
-        <Link
-          href="/#work"
-          className="mono-label inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
-        >
-          <span aria-hidden="true">←</span>
-          Selected Work
-        </Link>
+        <Reveal trigger="mount">
+          <Link
+            href="/#work"
+            className="mono-label inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
+          >
+            <span aria-hidden="true">←</span>
+            Selected Work
+          </Link>
+        </Reveal>
 
-        <h1 className="mt-10 text-display text-foreground">{project.name}</h1>
+        <Reveal trigger="mount" delay={60} className="mt-10">
+          <h1 className="text-display text-foreground">{project.name}</h1>
+        </Reveal>
 
-        <p className="mt-8 max-w-prose text-body-lg text-muted-foreground">{project.tagline}</p>
+        <Reveal trigger="mount" delay={120}>
+          <p className="mt-8 max-w-prose text-body-lg text-muted-foreground">
+            {project.tagline}
+          </p>
+        </Reveal>
 
-        <p className="mono-label mt-10 text-muted-foreground">
-          {project.year}
-          <span className="text-brand"> / </span>
-          {project.role}
-        </p>
+        <Reveal trigger="mount" delay={180}>
+          <p className="mono-label mt-10 text-muted-foreground">
+            {project.year}
+            <span className="text-brand"> / </span>
+            {project.role}
+          </p>
+        </Reveal>
 
-        <ul className="mt-8 flex flex-wrap items-center gap-8">
-          {project.repos.map((repo) => (
-            <li key={repo.url}>
+        <Reveal trigger="mount" delay={240} className="mt-8">
+          <ul className="flex flex-wrap items-center gap-8">
+            {project.repos.map((repo) => (
+              <li key={repo.url}>
+                <a
+                  href={repo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
+                >
+                  <GitHubIcon className="size-4" />
+                  {repo.label}
+                  <span className="sr-only">
+                    {" "}
+                    for {project.name} (opens in a new tab)
+                  </span>
+                </a>
+              </li>
+            ))}
+            <li>
               <a
-                href={repo.url}
+                href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
               >
-                <GitHubIcon className="size-4" />
-                {repo.label}
-                <span className="sr-only"> for {project.name} (opens in a new tab)</span>
+                <ExternalLink aria-hidden="true" className="size-4" />
+                Live site
+                <span className="sr-only">
+                  {" "}
+                  for {project.name} (opens in a new tab)
+                </span>
               </a>
             </li>
-          ))}
-          <li>
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
-            >
-              <ExternalLink aria-hidden="true" className="size-4" />
-              Live site
-              <span className="sr-only"> for {project.name} (opens in a new tab)</span>
-            </a>
-          </li>
-        </ul>
+          </ul>
+        </Reveal>
       </div>
 
       {/* HERO MEDIA */}
-      <div className="py-16">
+      <Reveal className="py-16">
         <MediaFrame
           project={project}
           aspect="aspect-[16/9]"
           sizes="(min-width: 1440px) 1296px, 100vw"
         />
-      </div>
+      </Reveal>
 
       <Section number="01" title="Overview" meta={project.name}>
-        <p className="max-w-prose text-body-lg text-muted-foreground">{project.summary}</p>
+        <p className="max-w-prose text-body-lg text-muted-foreground">
+          {project.summary}
+        </p>
       </Section>
 
       <Section
@@ -138,19 +161,23 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         title="Stack"
         meta={countLabel(project.stack.length, "technology", "technologies")}
       >
-        <ul className="flex flex-wrap gap-3">
-          {project.stack.map((item) => (
-            <li
-              key={item}
-              className="mono-label rounded-full border border-border bg-muted px-4 py-2 text-foreground"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
+        <Reveal>
+          <ul className="flex flex-wrap gap-3">
+            {project.stack.map((item) => (
+              <li
+                key={item}
+                className="mono-label rounded-full border border-border bg-muted px-4 py-2 text-foreground"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </Section>
 
-      <NextProject project={next} />
+      <Reveal>
+        <NextProject project={next} />
+      </Reveal>
     </Container>
   );
 }

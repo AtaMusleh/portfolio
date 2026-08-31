@@ -35,8 +35,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full", geistSans.variable, geistMono.variable, "font-sans")}
+      className={cn(
+        "h-full",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+      )}
     >
+      <head>
+        {/* If scripts never run, Motion never animates the hidden state away.
+            This makes every revealed element final-state for those users. */}
+        <noscript>
+          <style>
+            {"[data-reveal]{opacity:1!important;transform:none!important}"}
+          </style>
+        </noscript>
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <a

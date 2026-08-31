@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 type SectionProps = {
@@ -18,7 +19,14 @@ type SectionProps = {
  * The header stacks below sm: at 320px the title and meta together exceed the
  * content width, so justify-between only kicks in from sm up.
  */
-export function Section({ number, title, children, className, id, meta }: SectionProps) {
+export function Section({
+  number,
+  title,
+  children,
+  className,
+  id,
+  meta,
+}: SectionProps) {
   return (
     // tabIndex={-1} so an anchor link can move focus here, not just scroll —
     // outline-none because a brand ring around a whole section reads as an
@@ -26,17 +34,24 @@ export function Section({ number, title, children, className, id, meta }: Sectio
     <section
       id={id}
       tabIndex={-1}
-      className={cn("scroll-mt-20 border-t border-border py-section outline-none", className)}
+      className={cn(
+        "scroll-mt-20 border-t border-border py-section outline-none",
+        className,
+      )}
     >
-      <header className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-        <div>
-          <p className="mono-label text-brand">{number} /</p>
-          <h2 className="mt-4 text-h2 text-foreground">{title}</h2>
-        </div>
-        {meta ? (
-          <p className="mono-label text-muted-foreground sm:pt-1 sm:text-right">{meta}</p>
-        ) : null}
-      </header>
+      <Reveal className="mb-16">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+          <div>
+            <p className="mono-label text-brand">{number} /</p>
+            <h2 className="mt-4 text-h2 text-foreground">{title}</h2>
+          </div>
+          {meta ? (
+            <p className="mono-label text-muted-foreground sm:pt-1 sm:text-right">
+              {meta}
+            </p>
+          ) : null}
+        </header>
+      </Reveal>
       {children}
     </section>
   );

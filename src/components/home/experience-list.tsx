@@ -1,10 +1,12 @@
+import { Reveal } from "@/components/motion/reveal";
 import { experience } from "@/content";
 
 export function ExperienceList() {
   return (
     <ul className="flex flex-col gap-8">
       {experience.map((role) => (
-        <li
+        <Reveal
+          as="li"
           key={`${role.company}-${role.period}`}
           className="border border-border bg-muted p-8 md:p-12"
         >
@@ -18,7 +20,9 @@ export function ExperienceList() {
             {role.location}
           </p>
 
-          <p className="mt-6 max-w-prose text-body text-muted-foreground">{role.description}</p>
+          <p className="mt-6 max-w-prose text-body text-muted-foreground">
+            {role.description}
+          </p>
 
           {/* list-none: the marker is a brand em dash, not a disc. */}
           <ul className="mt-8 flex list-none flex-col gap-3">
@@ -27,11 +31,13 @@ export function ExperienceList() {
                 <span aria-hidden="true" className="text-brand">
                   —
                 </span>
-                <span className="text-body text-muted-foreground">{bullet}</span>
+                <span className="text-body text-muted-foreground">
+                  {bullet}
+                </span>
               </li>
             ))}
           </ul>
-        </li>
+        </Reveal>
       ))}
     </ul>
   );

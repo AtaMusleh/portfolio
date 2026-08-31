@@ -4,6 +4,7 @@ import { ExperienceList } from "@/components/home/experience-list";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/home/marquee";
 import { ProjectList } from "@/components/home/project-list";
+import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { about } from "@/content";
@@ -25,7 +26,12 @@ export default function Home() {
       <Hero />
 
       <Container rules>
-        <Section number="01" title="Selected Work" id="work" meta="Four projects">
+        <Section
+          number="01"
+          title="Selected Work"
+          id="work"
+          meta="Four projects"
+        >
           <ProjectList />
         </Section>
       </Container>
@@ -35,10 +41,17 @@ export default function Home() {
 
       <Container>
         <Section number="02" title="About" id="about" meta="Who I am">
-          <AboutTabs age={age} />
+          <Reveal>
+            <AboutTabs age={age} />
+          </Reveal>
         </Section>
 
-        <Section number="03" title="Experience" id="experience" meta="Current role">
+        <Section
+          number="03"
+          title="Experience"
+          id="experience"
+          meta="Current role"
+        >
           <ExperienceList />
         </Section>
 
