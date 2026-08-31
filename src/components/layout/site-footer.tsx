@@ -11,9 +11,19 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   const links = [
-    { label: "Email", href: `mailto:${site.email}`, external: false, Icon: Mail },
+    {
+      label: "Email",
+      href: `mailto:${site.email}`,
+      external: false,
+      Icon: Mail,
+    },
     { label: "GitHub", href: site.github, external: true, Icon: GitHubIcon },
-    { label: "LinkedIn", href: site.linkedin, external: true, Icon: LinkedInIcon },
+    {
+      label: "LinkedIn",
+      href: site.linkedin,
+      external: true,
+      Icon: LinkedInIcon,
+    },
   ];
 
   return (
@@ -22,8 +32,12 @@ export function SiteFooter() {
         <div className="flex flex-col gap-12 sm:flex-row sm:justify-between">
           <div>
             <p className="text-h3 text-foreground">{site.name}</p>
-            <p className="mt-2 text-body text-muted-foreground">{site.location}</p>
-            <p className="mt-6 max-w-prose text-body text-muted-foreground">{site.availability}</p>
+            <p className="mt-2 text-body text-muted-foreground">
+              {site.location}
+            </p>
+            <p className="mt-6 max-w-prose text-body text-muted-foreground">
+              {site.availability}
+            </p>
           </div>
 
           <ul className="flex flex-col gap-3 sm:items-end">
@@ -32,11 +46,15 @@ export function SiteFooter() {
                 <a
                   href={href}
                   className="mono-label flex min-h-12 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
-                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                 >
                   <Icon aria-hidden="true" className="size-4" />
-                  {label}
-                  {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+                  <span className="link-draw">{label}</span>
+                  {external ? (
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  ) : null}
                 </a>
               </li>
             ))}

@@ -286,6 +286,53 @@
   }
 }
 
+/* Custom cursor.
+   The native cursor is hidden only while the custom one is actually on screen —
+   the class is added on the first pointer move and removed whenever the effect
+   is disabled or unmounts, so nobody is ever left without a cursor. */
+html.cursor-hidden,
+html.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* Drawn link underline.
+   Rest state parks the origin on the right, hover moves it to the left. That is
+   the whole trick: it draws left-to-right on enter and retracts to the right on
+   leave, instead of un-drawing backwards.
+   Hover is behind (hover: hover) so a tap does not leave it stuck drawn; the
+   focus-visible rule draws it instantly with no transition. Under
+   prefers-reduced-motion the global block zeroes the duration, so it appears
+   instantly rather than drawing — which is the required behaviour. */
+.link-draw {
+  position: relative;
+  display: inline-block;
+}
+
+.link-draw::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -0.15em;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 200ms ease;
+}
+
+@media (hover: hover) {
+  a:hover .link-draw::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+a:focus-visible .link-draw::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: none;
+}
+
 /* Marquee.
    transform only, so it composites and never touches layout or the main
    thread. Translating -50% of the track moves it by exactly one copy, because

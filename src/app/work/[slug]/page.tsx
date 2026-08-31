@@ -106,7 +106,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                   className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
                 >
                   <GitHubIcon className="size-4" />
-                  {repo.label}
+                  <span className="link-draw">{repo.label}</span>
                   <span className="sr-only">
                     {" "}
                     for {project.name} (opens in a new tab)
@@ -122,7 +122,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
                 className="mono-label flex min-h-11 items-center gap-2 text-muted-foreground hover:text-brand md:min-h-0"
               >
                 <ExternalLink aria-hidden="true" className="size-4" />
-                Live site
+                <span className="link-draw">Live site</span>
                 <span className="sr-only">
                   {" "}
                   for {project.name} (opens in a new tab)

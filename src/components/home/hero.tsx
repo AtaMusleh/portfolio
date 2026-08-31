@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GitHubIcon } from "@/components/icons/github";
 import { LinkedInIcon } from "@/components/icons/linkedin";
 import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/motion/magnetic";
 import { Container } from "@/components/layout/Container";
 import { experience, site } from "@/content";
 
@@ -63,20 +64,24 @@ export function Hero() {
 
           <Reveal trigger="mount" delay={180}>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Link
-                href="#contact"
-                className="mono-label flex h-12 items-center justify-center gap-2 rounded-full bg-brand px-6 text-brand-foreground transition duration-150 hover:bg-brand/85"
-              >
-                <Mail aria-hidden="true" className="size-4" />
-                Get in touch
-              </Link>
-              <Link
-                href="#work"
-                className="mono-label flex h-12 items-center justify-center gap-2 rounded-full border border-border px-6 text-foreground transition duration-150 hover:bg-muted"
-              >
-                <ArrowDown aria-hidden="true" className="size-4" />
-                View work
-              </Link>
+              <Magnetic>
+                <Link
+                  href="#contact"
+                  className="mono-label flex h-12 items-center justify-center gap-2 rounded-full bg-brand px-6 text-brand-foreground transition duration-150 hover:bg-brand/85"
+                >
+                  <Mail aria-hidden="true" className="size-4" />
+                  Get in touch
+                </Link>
+              </Magnetic>
+              <Magnetic>
+                <Link
+                  href="#work"
+                  className="mono-label flex h-12 items-center justify-center gap-2 rounded-full border border-border px-6 text-foreground transition duration-150 hover:bg-muted"
+                >
+                  <ArrowDown aria-hidden="true" className="size-4" />
+                  View work
+                </Link>
+              </Magnetic>
             </div>
           </Reveal>
         </div>
@@ -123,7 +128,7 @@ export function Hero() {
                         : {})}
                     >
                       <Icon aria-hidden="true" className="size-4" />
-                      {label}
+                      <span className="link-draw">{label}</span>
                       {external ? (
                         <span className="sr-only"> (opens in a new tab)</span>
                       ) : null}

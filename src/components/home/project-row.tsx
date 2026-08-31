@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ParallaxLayer } from "@/components/motion/parallax-layer";
 import { Reveal } from "@/components/motion/reveal";
 import type { Project } from "@/content";
 
@@ -72,21 +73,23 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
               inside cols 7-12 rather than stretching across them. */}
           <div className="lg:col-span-6">
             <div className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-sky lg:ml-auto lg:max-w-[480px]">
-              {project.image ? (
-                <Image
-                  src={project.image}
-                  alt={`${project.name} screenshot`}
-                  fill
-                  sizes="(min-width: 1024px) 480px, 100vw"
-                  className="object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <span className="mono-label text-muted-foreground">
-                    {project.name}
-                  </span>
-                </div>
-              )}
+              <ParallaxLayer>
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={`${project.name} screenshot`}
+                    fill
+                    sizes="(min-width: 1024px) 480px, 100vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <span className="mono-label text-muted-foreground">
+                      {project.name}
+                    </span>
+                  </div>
+                )}
+              </ParallaxLayer>
             </div>
           </div>
         </div>
