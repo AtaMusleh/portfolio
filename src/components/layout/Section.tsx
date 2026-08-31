@@ -20,7 +20,14 @@ type SectionProps = {
  */
 export function Section({ number, title, children, className, id, meta }: SectionProps) {
   return (
-    <section id={id} className={cn("scroll-mt-20 border-t border-border py-section", className)}>
+    // tabIndex={-1} so an anchor link can move focus here, not just scroll —
+    // outline-none because a brand ring around a whole section reads as an
+    // error, and this is never a Tab stop.
+    <section
+      id={id}
+      tabIndex={-1}
+      className={cn("scroll-mt-20 border-t border-border py-section outline-none", className)}
+    >
       <header className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
         <div>
           <p className="mono-label text-brand">{number} /</p>

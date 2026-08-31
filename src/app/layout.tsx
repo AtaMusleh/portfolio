@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteNav } from "@/components/layout/site-nav";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { ThemeProvider } from "@/components/theme-provider";
 import { site } from "@/content";
 import { cn } from "@/lib/utils";
@@ -48,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {/* tabIndex={-1}: without it a skip link only scrolls — focus stays on
               body and the next Tab can fall back into the nav. */}
           <main id="main" tabIndex={-1} className="flex-1 outline-none">
-            {children}
+            <SmoothScroll>{children}</SmoothScroll>
           </main>
           <SiteFooter />
         </ThemeProvider>
