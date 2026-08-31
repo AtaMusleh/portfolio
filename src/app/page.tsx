@@ -1,12 +1,14 @@
 import { AboutTabs } from "@/components/home/about-tabs";
 import { Contact } from "@/components/home/contact";
 import { ExperienceList } from "@/components/home/experience-list";
+import { ExploreGrid } from "@/components/home/explore-grid";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/home/marquee";
 import { ProjectList } from "@/components/home/project-list";
 import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { Bloom } from "@/components/visual/bloom";
 import { about } from "@/content";
 import { getAge } from "@/lib/age";
 
@@ -23,7 +25,13 @@ export default function Home() {
 
   return (
     <>
-      <Hero />
+      {/* Positioning wrapper only — block, full width, no padding — so it adds
+          no layout. `isolate` gives the Bloom a stacking context to sit in and
+          `overflow-hidden` clips it; see bloom.tsx. */}
+      <div className="relative isolate overflow-hidden">
+        <Bloom />
+        <Hero />
+      </div>
 
       <Container rules>
         <Section
@@ -48,6 +56,15 @@ export default function Home() {
 
         <Section
           number="03"
+          title="Explore"
+          id="explore"
+          meta="Six destinations"
+        >
+          <ExploreGrid />
+        </Section>
+
+        <Section
+          number="04"
           title="Experience"
           id="experience"
           meta="Current role"
@@ -55,9 +72,12 @@ export default function Home() {
           <ExperienceList />
         </Section>
 
-        <Section number="04" title="Contact" id="contact" meta="Get in touch">
-          <Contact />
-        </Section>
+        <div className="relative isolate overflow-hidden">
+          <Bloom />
+          <Section number="05" title="Contact" id="contact" meta="Get in touch">
+            <Contact />
+          </Section>
+        </div>
       </Container>
     </>
   );

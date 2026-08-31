@@ -1,4 +1,4 @@
-import { ArrowDown, Mail } from "lucide-react";
+import { ArrowDown, ChevronDown, Mail } from "lucide-react";
 import Link from "next/link";
 
 import { GitHubIcon } from "@/components/icons/github";
@@ -83,7 +83,15 @@ export function Hero() {
 
         {/* BOTTOM — mt-auto pins it to the foot of the first screen without
             taking it out of flow, so it still pushes down if content grows. */}
-        <Reveal trigger="mount" delay={240} className="mt-auto">
+        {/* Scroll indicator. Static in this pass. */}
+        <div className="mt-auto flex justify-center pb-8">
+          <ChevronDown
+            aria-hidden="true"
+            className="size-5 text-muted-foreground"
+          />
+        </div>
+
+        <Reveal trigger="mount" delay={240}>
           <div className="grid grid-cols-1 gap-10 border-t border-border py-10 md:grid-cols-3 md:gap-8">
             <div>
               <p className="mono-label text-muted-foreground">Available for</p>

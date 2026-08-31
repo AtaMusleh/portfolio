@@ -8,6 +8,7 @@ import { site } from "@/content";
 const navLinks = [
   { label: "Work", href: "/#work" },
   { label: "About", href: "/#about" },
+  { label: "Explore", href: "/#explore" },
   { label: "Experience", href: "/#experience" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -16,7 +17,10 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
       <Container>
-        <nav className="flex items-center justify-between py-4" aria-label="Main">
+        <nav
+          className="flex items-center justify-between py-4"
+          aria-label="Main"
+        >
           <Link
             href="/"
             className="mono-label flex min-h-11 items-center text-foreground hover:text-brand md:min-h-0"
