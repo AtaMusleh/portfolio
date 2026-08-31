@@ -12,7 +12,7 @@ export function Contact() {
       <Reveal>
         <a
           href={`mailto:${site.email}`}
-          className="block min-h-11 break-words text-h2 text-foreground transition duration-150 hover:text-brand"
+          className="block min-h-12 break-words text-h2 text-foreground transition duration-150 hover:text-brand"
         >
           {site.email}
         </a>
@@ -34,7 +34,7 @@ export function Contact() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mono-label flex min-h-11 items-center text-muted-foreground hover:text-brand md:min-h-0"
+                className="mono-label flex min-h-12 items-center text-muted-foreground hover:text-brand md:min-h-0"
               >
                 {link.label}
                 <span className="sr-only"> (opens in a new tab)</span>

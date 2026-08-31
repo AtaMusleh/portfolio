@@ -286,6 +286,46 @@
   }
 }
 
+/* Marquee.
+   transform only, so it composites and never touches layout or the main
+   thread. Translating -50% of the track moves it by exactly one copy, because
+   each copy carries its own trailing gap (see marquee.tsx).
+   Pause on hover is guarded by (hover: hover) so a tap on a touch device does
+   not leave it stuck paused; focus-within is unguarded and applies anywhere. */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 50s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .marquee-strip:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+.marquee-strip:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Reduced motion: no animation at all, and pinned to the start position. The
+   global block below only zeroes duration/iteration-count, which would leave
+   the track parked at -50% instead of static. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 /* Reveal safety net.
    Motion server-renders its initial styles, so the HTML for a revealed element
    ships with inline opacity:0. These !important rules outrank inline styles

@@ -7,7 +7,13 @@
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 
 /**
  * Matches the `scroll-mt-20` (5rem) offset the sections carry for native hash
@@ -15,6 +21,22 @@ import { useCallback, useEffect, useRef } from "react";
  * nav has to be passed explicitly.
  */
 const NAV_OFFSET = 80;
+
+type ScrollToHash = (
+  hash: string,
+  options: { immediate: boolean; focus: boolean },
+) => boolean;
+
+/**
+ * Exposes this provider's own scroll-to-hash so other components (the
+ * scroll-spy) reuse the exact Lenis path the anchor links take — same offset,
+ * same focus move, same reduced-motion fallback — instead of reimplementing it.
+ */
+const SmoothScrollContext = createContext<ScrollToHash | null>(null);
+
+export function useScrollToHash() {
+  return useContext(SmoothScrollContext);
+}
 
 /** easeOutExpo. */
 const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
@@ -211,5 +233,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("popstate", onPopState);
   }, [scrollToHash]);
 
-  return <>{children}</>;
+  return (
+    <SmoothScrollContext.Provider value={scrollToHash}>
+      {children}
+    </SmoothScrollContext.Provider>
+  );
 }

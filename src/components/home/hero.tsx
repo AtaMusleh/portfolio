@@ -117,7 +117,7 @@ export function Hero() {
                   <li key={label}>
                     <a
                       href={href}
-                      className="mono-label flex min-h-11 items-center gap-2 text-foreground hover:text-brand md:min-h-0"
+                      className="mono-label flex min-h-12 items-center gap-2 text-foreground hover:text-brand md:min-h-0"
                       {...(external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}

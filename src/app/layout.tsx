@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteNav } from "@/components/layout/site-nav";
+import { ActiveSectionProvider } from "@/components/motion/active-section";
+import { ScrollSpy } from "@/components/motion/scroll-spy";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { ThemeProvider } from "@/components/theme-provider";
 import { site } from "@/content";
@@ -53,19 +55,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <a
-            href="#main"
-            className="mono-label sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline-2 focus:outline-offset-2 focus:outline-brand"
-          >
-            Skip to content
-          </a>
-          <SiteNav />
-          {/* tabIndex={-1}: without it a skip link only scrolls — focus stays on
+          {/* Wraps the nav and the page so both read one observer. */}
+          <ActiveSectionProvider>
+            <a
+              href="#main"
+              className="mono-label sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+            >
+              Skip to content
+            </a>
+            <SiteNav />
+            {/* tabIndex={-1}: without it a skip link only scrolls — focus stays on
               body and the next Tab can fall back into the nav. */}
-          <main id="main" tabIndex={-1} className="flex-1 outline-none">
-            <SmoothScroll>{children}</SmoothScroll>
-          </main>
-          <SiteFooter />
+            <main id="main" tabIndex={-1} className="flex-1 outline-none">
+              <SmoothScroll>
+                <ScrollSpy />
+                {children}
+              </SmoothScroll>
+            </main>
+            <SiteFooter />
+          </ActiveSectionProvider>
         </ThemeProvider>
       </body>
     </html>
