@@ -13,7 +13,6 @@ export const experience: Role[] = [
       "Write expression rules encoding banking logic, validation, and data transformation.",
       "Model record types and process models against core banking data.",
       "Ship production software where correctness and auditability are requirements, not preferences.",
-      "TODO: one concrete thing you shipped — a named workflow or process, and roughly who uses it.",
     ],
   },
 ]

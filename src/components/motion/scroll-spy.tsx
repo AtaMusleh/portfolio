@@ -40,7 +40,7 @@ export function ScrollSpy() {
                 focus: true,
               })
             }
-            className="flex w-8 items-center justify-start py-1.5"
+            className="flex h-6 w-8 items-center justify-start"
           >
             <span
               aria-hidden="true"
