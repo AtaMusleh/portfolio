@@ -4,6 +4,8 @@
 // loop, and everything that has to change because Lenis bypasses native
 // scrolling: in-page anchors, deep links, and history restoration.
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { usePathname } from "next/navigation";
@@ -21,6 +23,11 @@ import {
  * nav has to be passed explicitly.
  */
 const NAV_OFFSET = 80;
+
+// Registered once, at module scope. gsap.registerPlugin is idempotent, but
+// doing it here keeps every ScrollTrigger consumer from having to think about
+// it.
+gsap.registerPlugin(ScrollTrigger);
 
 type ScrollToHash = (
   hash: string,
@@ -50,7 +57,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   // --- instance lifecycle, gated on prefers-reduced-motion -----------------
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
+    let tickerFn: ((time: number) => void) | null = null;
 
     const start = () => {
       if (lenisRef.current) return;
@@ -65,18 +72,35 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       });
       lenisRef.current = lenis;
 
-      const raf = (time: number) => {
-        lenis.raf(time);
-        frame = requestAnimationFrame(raf);
-      };
-      frame = requestAnimationFrame(raf);
+      // --- GSAP <-> Lenis ---------------------------------------------------
+      // ScrollTrigger reads native scroll position, but Lenis animates its own
+      // value and writes it out. Without these two lines every trigger fires at
+      // the wrong place, or never.
+      //
+      // 1. Tell ScrollTrigger to re-evaluate on Lenis's own scroll event.
+      // 2. Drive Lenis from GSAP's ticker instead of a second rAF loop, so
+      //    scroll and tween updates happen in one frame, in a known order.
+      //    lagSmoothing(0) stops GSAP compensating for dropped frames, which
+      //    would otherwise desync Lenis's position from the tweens.
+      lenis.on("scroll", ScrollTrigger.update);
+      tickerFn = (time: number) => lenis.raf(time * 1000); // GSAP ticks in seconds
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
     };
 
     const stop = () => {
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
+      if (tickerFn) {
+        gsap.ticker.remove(tickerFn);
+        tickerFn = null;
+      }
+      // Hand pacing back to GSAP's default when Lenis is not driving.
+      gsap.ticker.lagSmoothing(500, 33);
+      lenisRef.current?.off("scroll", ScrollTrigger.update);
       lenisRef.current?.destroy();
       lenisRef.current = null;
+      // Native scrolling now: ScrollTrigger falls back to its own listeners,
+      // but its cached positions were computed while Lenis was driving.
+      ScrollTrigger.refresh();
     };
 
     // Reduced motion means Lenis never initialises at all — native scrolling,
@@ -200,6 +224,19 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     );
     return () => window.clearTimeout(timer);
   }, [pathname, scrollToHash]);
+
+  // The App Router keeps the same document across navigations, so every
+  // trigger's cached start/end is stale after a route change.
+  useEffect(() => {
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+    return () => window.clearTimeout(id);
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
 
   // --- history restoration --------------------------------------------------
   useEffect(() => {

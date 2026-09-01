@@ -153,7 +153,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
         title="Engineering"
         meta={countLabel(project.highlights.length, "problem", "problems")}
       >
-        <HighlightList highlights={project.highlights} />
+        <HighlightList highlights={project.highlights} slug={project.slug} />
       </Section>
 
       <Section

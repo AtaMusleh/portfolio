@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { RouteMap } from "@/components/work/route-map";
 import type { Highlight } from "@/content";
 
 /**
@@ -9,7 +10,13 @@ import type { Highlight } from "@/content";
  * its border and surface, which is what makes the pair read as two distinct
  * things rather than one run of prose.
  */
-export function HighlightList({ highlights }: { highlights: Highlight[] }) {
+export function HighlightList({
+  highlights,
+  slug,
+}: {
+  highlights: Highlight[];
+  slug?: string;
+}) {
   return (
     <ol className="flex list-none flex-col">
       {highlights.map((highlight, index) => (
@@ -26,6 +33,11 @@ export function HighlightList({ highlights }: { highlights: Highlight[] }) {
             </span>
 
             <div className="min-w-0 flex-1">
+              {/* Roam's route highlight demonstrates itself. */}
+              {slug === "roam" &&
+              highlight.title.startsWith("Scroll-driven") ? (
+                <RouteMap />
+              ) : null}
               <h3 className="text-h3 text-foreground">{highlight.title}</h3>
 
               <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">

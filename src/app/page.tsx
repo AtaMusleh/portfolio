@@ -9,6 +9,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Bloom } from "@/components/visual/bloom";
+import { ContactMesh } from "@/components/visual/contact-mesh";
 import { about } from "@/content";
 import { getAge } from "@/lib/age";
 
@@ -57,6 +58,7 @@ export default function Home() {
         <Section
           number="03"
           title="Explore"
+          pinHeader
           id="explore"
           meta="Six destinations"
         >
@@ -74,6 +76,7 @@ export default function Home() {
 
         <div className="relative isolate overflow-hidden">
           <Bloom />
+          <ContactMesh />
           <Section number="05" title="Contact" id="contact" meta="Get in touch">
             <Contact />
           </Section>
