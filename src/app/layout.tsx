@@ -23,10 +23,46 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://portfolio-virid-seven-f13k2sqmwj.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portfolio-virid-seven-f13k2sqmwj.vercel.app"),
-  title: `${site.name} — ${site.role}`,
+  // Every relative URL in this file — OG images included — resolves against
+  // this. It MUST be updated if a custom domain is added, or social previews
+  // will keep pointing at the Vercel subdomain.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    // The home page uses the full string; every other route supplies only its
+    // own name and gets the suffix, so a case study reads "Roam — Ata Musleh".
+    default: `${site.name} — ${site.role}`,
+    template: `%s — ${site.name}`,
+  },
   description: site.tagline,
+  keywords: [
+    "full-stack developer",
+    "TypeScript",
+    "Next.js",
+    "React",
+    "PostgreSQL",
+    "Appian",
+    "Ramallah",
+    site.name,
+  ],
+  authors: [{ name: site.name, url: SITE_URL }],
+  creator: site.name,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: site.name,
+    title: `${site.name} — ${site.role}`,
+    description: site.tagline,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.role}`,
+    description: site.tagline,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

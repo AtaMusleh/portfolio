@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Dev-only audit harness: plain .mjs that runs in Node and evaluates
+    // browser-context template strings. Not app code, not built.
+    "scripts/**",
   ]),
 ]);
 

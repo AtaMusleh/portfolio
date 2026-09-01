@@ -24,12 +24,27 @@ export async function generateMetadata(
 
   if (!project) return {};
 
-  const title = `${project.name} — ${site.name}`;
+  // Only the project name: the root template appends " — Ata Musleh". Passing
+  // the full string here would double the suffix.
+  const title = project.name;
+  const url = `/work/${project.slug}`;
 
   return {
     title,
     description: project.tagline,
-    openGraph: { title, description: project.tagline },
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      siteName: site.name,
+      title: `${project.name} — ${site.name}`,
+      description: project.tagline,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.name} — ${site.name}`,
+      description: project.tagline,
+    },
   };
 }
 

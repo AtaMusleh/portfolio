@@ -1,5 +1,20 @@
 import type { Project } from "./types"
 
+/**
+ * Project screenshots.
+ *
+ * Drop the files into public/projects/ using exactly these names:
+ *
+ *   /projects/roam.png
+ *   /projects/taskflow.png
+ *   /projects/linksnip.png
+ *   /projects/fx-convert.png
+ *
+ * Then add `image: "/projects/<slug>.png"` to the matching project below.
+ * That is the whole job — the media frames on the home page and the case study
+ * hero already branch on `project.image` and swap the empty frame for a
+ * next/image fill. No component changes are needed.
+ */
 export const projects: Project[] = [
   {
     slug: "roam",
