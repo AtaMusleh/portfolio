@@ -400,6 +400,21 @@ a:focus-visible .link-draw::after {
    incoming panel briefly coexist in the DOM — that overlap is the crossfade.
    The global reduced-motion block below already collapses both to 0.01ms,
    which is what makes the reduced-motion swap instant. */
+/* Hero typewriter caret. steps(1) (set inline via the arbitrary animation
+   value) makes it hold each state instead of fading, i.e. a real blink. The
+   global reduced-motion block collapses this to imperceptible, and the caret
+   span is not even rendered under reduced motion in the first place. */
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes tab-fade-in {
   from {
     opacity: 0;

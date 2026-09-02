@@ -58,7 +58,6 @@ export default function Home() {
         <Section
           number="03"
           title="Explore"
-          pinHeader
           id="explore"
           meta="Six destinations"
         >

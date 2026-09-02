@@ -10,6 +10,13 @@ export function Contact() {
   return (
     <div>
       <Reveal>
+        <h3 className="text-h2 text-foreground">
+          {site.contactHeadline}
+          <span className="text-stroked">{site.contactHeadlineAccent}</span>
+        </h3>
+      </Reveal>
+
+      <Reveal delay={60} className="mt-8">
         <a
           href={`mailto:${site.email}`}
           className="block min-h-12 break-words text-h2 text-foreground transition duration-150 hover:text-brand"
@@ -18,7 +25,7 @@ export function Contact() {
         </a>
       </Reveal>
 
-      <Reveal delay={60} className="mt-10">
+      <Reveal delay={120} className="mt-10">
         <div className="border border-border bg-sky p-8 md:p-12">
           <p className="max-w-prose text-body-lg text-foreground">
             {site.availability}
@@ -26,7 +33,7 @@ export function Contact() {
         </div>
       </Reveal>
 
-      <Reveal delay={120} className="mt-10">
+      <Reveal delay={180} className="mt-10">
         <ul className="flex flex-wrap items-center gap-8">
           {links.map((link) => (
             <li key={link.label}>

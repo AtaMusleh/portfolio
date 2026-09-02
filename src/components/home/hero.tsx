@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GitHubIcon } from "@/components/icons/github";
 import { LinkedInIcon } from "@/components/icons/linkedin";
 import { CodePanel } from "@/components/home/code-panel";
+import { HeroRotatingLine } from "@/components/home/hero-rotating-line";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Container } from "@/components/layout/Container";
@@ -61,6 +62,10 @@ export function Hero() {
                 </>
               ) : null}
             </h1>
+          </Reveal>
+
+          <Reveal trigger="mount" delay={90}>
+            <HeroRotatingLine className="mt-4" />
           </Reveal>
 
           <Reveal trigger="mount" delay={120}>
