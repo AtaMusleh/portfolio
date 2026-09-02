@@ -18,11 +18,23 @@ import {
 } from "react";
 
 /**
- * Matches the `scroll-mt-20` (5rem) offset the sections carry for native hash
- * navigation. Lenis does not apply scroll-margin, so the gap under the sticky
- * nav has to be passed explicitly.
+ * Matches the `scroll-mt-[var(--nav-clearance)]` the sections carry for
+ * native hash navigation. Lenis does not apply scroll-margin, so the gap
+ * under the floating nav pill has to be passed explicitly.
+ *
+ * Reads the CSS custom property live (not a cached constant) because the
+ * pill's height — and so the clearance needed — changes with viewport width;
+ * see the property's definition in globals.css for the exact breakpoints.
+ * A stale cached number would be wrong the moment the window is resized
+ * across one of those breakpoints between renders.
  */
-const NAV_OFFSET = 80;
+function getNavOffset(): number {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue(
+    "--nav-clearance",
+  );
+  const parsed = parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed : 92;
+}
 
 // Registered once, at module scope. gsap.registerPlugin is idempotent, but
 // doing it here keeps every ScrollTrigger consumer from having to think about
@@ -117,7 +129,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   }, []);
 
   /**
-   * Scroll so the hash target sits NAV_OFFSET below the viewport top.
+   * Scroll so the hash target sits the current nav clearance below the
+   * viewport top.
    *
    * The destination is computed as an absolute document position rather than
    * handed to Lenis as an element. Passing the element makes the result depend
@@ -139,7 +152,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
       const top = Math.max(
         0,
-        target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET,
+        target.getBoundingClientRect().top + window.scrollY - getNavOffset(),
       );
 
       // Same class of bug as the skip link: scrolling is not focusing. The

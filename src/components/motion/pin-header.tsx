@@ -40,12 +40,17 @@ export function PinHeader({ children }: { children: React.ReactNode }) {
 
     const mm = gsap.matchMedia();
     mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      // This only ever activates at >=1024px, which is always inside the
+      // >=768px tier of --nav-clearance (see globals.css) — a single,
+      // unconditional read is correct here, no per-call recompute needed.
+      const clearance = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue("--nav-clearance")
+      );
       const trigger = ScrollTrigger.create({
         trigger: section,
-        // 80px clears the sticky nav, matching the anchor offset.
-        start: "top top+=80",
+        start: `top top+=${clearance}`,
         // Release when the section's bottom reaches the pinned header.
-        end: () => `bottom top+=${80 + inner.offsetHeight}`,
+        end: () => `bottom top+=${clearance + inner.offsetHeight}`,
         pin: inner,
         pinSpacing: false,
         anticipatePin: 1,

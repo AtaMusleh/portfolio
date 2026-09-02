@@ -33,8 +33,14 @@ export function Hero() {
     <Container>
       {/* svh, not vh: vh is measured against the largest viewport on mobile
           browsers with retracting toolbars, which pushes the bottom block off
-          the first screen. */}
-      <div className="flex min-h-[100svh] flex-col">
+          the first screen.
+          The subtraction matters: <main> now carries pt-[var(--nav-clearance)]
+          to clear the floating pill, and that padding sits ABOVE this div. If
+          the hero were still a flat 100svh, the padding would make hero +
+          padding taller than one screen, pushing the AVAILABLE/CURRENTLY/
+          ELSEWHERE strip below the fold on first load. Subtracting the same
+          clearance here keeps hero + padding exactly one screen again. */}
+      <div className="flex min-h-[calc(100svh-var(--nav-clearance))] flex-col">
         {/* TOP */}
         <Reveal trigger="mount">
           <div className="flex flex-wrap justify-between gap-x-8 gap-y-1 border-b border-border py-6">

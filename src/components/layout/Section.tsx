@@ -17,9 +17,11 @@ type SectionProps = {
 };
 
 /**
- * A numbered top-level section. The `scroll-mt-20` offset keeps the hairline
- * border and header clear of the sticky nav when an anchor link lands here —
- * scroll-margin-top is what Next uses for hash navigation.
+ * A numbered top-level section. `scroll-mt-[var(--nav-clearance)]` keeps the
+ * hairline border and header clear of the floating nav pill when an anchor
+ * link lands here — scroll-margin-top is what Next uses for hash navigation.
+ * --nav-clearance is the single source of truth for that distance; see its
+ * definition in globals.css for why it isn't just one fixed number.
  *
  * The header stacks below sm: at 320px the title and meta together exceed the
  * content width, so justify-between only kicks in from sm up.
@@ -45,7 +47,7 @@ export function Section({
       id={id}
       tabIndex={-1}
       className={cn(
-        "scroll-mt-20 border-t border-border py-section outline-none",
+        "scroll-mt-[var(--nav-clearance)] border-t border-border py-section outline-none",
         className,
       )}
     >

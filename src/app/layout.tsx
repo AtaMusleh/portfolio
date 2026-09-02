@@ -94,17 +94,30 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ThemeProvider>
           {/* Wraps the nav and the page so both read one observer. */}
           <ActiveSectionProvider>
+            {/* focus:top-[var(--nav-clearance)]: the nav is now a fixed,
+                centered pill rather than an in-flow bar, so a fixed top-4
+                position would sit underneath (or overlapping, at narrow
+                widths where the pill spans most of the viewport) it. The
+                clearance distance is exactly what already keeps every
+                section clear of the pill — same variable, same reasoning. */}
             <a
               href="#main"
-              className="mono-label sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+              className="mono-label sr-only focus:not-sr-only focus:fixed focus:top-[var(--nav-clearance)] focus:left-4 focus:z-100 focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline-2 focus:outline-offset-2 focus:outline-brand"
             >
               Skip to content
             </a>
             <Cursor />
             <SiteNav />
             {/* tabIndex={-1}: without it a skip link only scrolls — focus stays on
-              body and the next Tab can fall back into the nav. */}
-            <main id="main" tabIndex={-1} className="flex-1 outline-none">
+              body and the next Tab can fall back into the nav.
+              pt-[var(--nav-clearance)]: the nav is fixed and out of flow now,
+              so nothing pushes page content below it on first load — this is
+              that clearance, applied once here rather than per-page. */}
+            <main
+              id="main"
+              tabIndex={-1}
+              className="flex-1 pt-[var(--nav-clearance)] outline-none"
+            >
               <SmoothScroll>
                 <ScrollSpy />
                 {children}

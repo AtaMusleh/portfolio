@@ -211,6 +211,36 @@
   --destructive: oklch(0.7106 0.1661 22.22); /* #F87171 — 6.95:1 on --background */
 }
 
+/* Single source of truth for "how far from the viewport top is it safe for
+   content to start" — the floating nav pill's own bottom edge plus a small
+   breathing gap, measured, not guessed.
+   The pill is fixed and out of flow, so nothing pushes content below it
+   automatically; every consumer of this value (the <main> top padding, each
+   section's scroll-margin-top, the skip link's focus position, the hero's
+   height calc, and the JS scroll-to-hash offset, which reads this custom
+   property live via getComputedStyle) has to agree on the same number, and
+   the pill's own height changes at these exact widths:
+     <640px  (mobile: name + email + toggle, one row)     pill bottom  94px
+     640–767px (name + full link row wrap to two rows —
+                see the comment in site-nav.tsx)           pill bottom 146px
+     >=768px (full row, smaller toggle, one row)           pill bottom  78px
+   Each tier adds a flat 14px gap on top of its own pill-bottom measurement. */
+:root {
+  --nav-clearance: 108px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --nav-clearance: 160px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-clearance: 92px;
+  }
+}
+
 /* Outlined display type, used for the last word of the name in the hero.
    Written as progressive enhancement: the base rule paints solid brand, and
    only a browser that actually supports -webkit-text-stroke swaps to a
