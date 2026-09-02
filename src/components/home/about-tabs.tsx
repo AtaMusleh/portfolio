@@ -56,13 +56,26 @@ const TRIGGER =
 // on it — that would leave a focusable element with no visible focus ring.
 // focus-visible:outline-solid is required: shadcn's base sets outline-none,
 // which zeroes --tw-outline-style, and outline-2 only sets the width.
-// absolute + inset-0 stacks the panels on top of each other during the
-// crossfade (data-state driven, see globals.css) so the outgoing and
-// incoming panel never both contribute to layout height at once — the fixed
-// min-h-[18rem] on the wrapper is what holds the box's size, not the panels.
+// absolute + inset-0 keeps the (never simultaneously mounted, see below)
+// panels from contributing to layout height — the fixed min-h on the
+// wrapper is what holds the box's size, not the panels.
+//
+// This is an instant swap, not a crossfade: an opacity-based crossfade here
+// briefly painted both panels at partial opacity at once, which read as
+// overlapping text (e.g. "Gaming"/"Lifting" chips ghosting over fading
+// Education text) since neither panel has its own opaque background to mask
+// the other. Making it non-simultaneous (fade the outgoing panel out fully,
+// *then* fade the incoming one in) would need Radix's Presence-driven
+// content to mount hidden during that gap via animation-delay +
+// animation-fill-mode:backwards — but Radix also force-zeroes
+// animation-duration inline on whichever panel is selected at mount, and
+// fill-mode:backwards applies regardless of duration, so the initially
+// active panel would render invisible for the delay window on first paint.
+// Dropping the animation entirely sidesteps that: with no animation for
+// Presence to detect, it unmounts the outgoing panel the instant the trigger
+// changes, so exactly one panel is ever painted.
 const PANEL =
-  "absolute inset-0 p-8 md:p-12 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand " +
-  "data-[state=active]:animate-[tab-fade-in_150ms_ease-out] data-[state=inactive]:animate-[tab-fade-out_150ms_ease-out]";
+  "absolute inset-0 p-8 md:p-12 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 function TabUnderline({ reducedMotion }: { reducedMotion: boolean }) {
   return (
@@ -97,9 +110,18 @@ export function AboutTabs({ age }: { age: number }) {
       </TabsList>
 
       {/* min-h keeps the block a fixed size across tabs so switching does not
-          make the page jump. relative anchors the absolutely-positioned
+          make the page jump — sized to the tallest tab's content (Me) at the
+          narrowest width in each padding tier, measured directly rather than
+          guessed: 26rem covers Me's wrapped intro up to 320px (measured
+          ~405px including padding, at the p-8 tier), 15rem covers it from
+          md up (measured ~234px including padding at 768px, the narrowest
+          width in the p-12 tier — content only gets shorter as the viewport
+          widens past that, since the intro is also capped by max-w-prose).
+          A single fixed value across both tiers can't fit both: Me's intro
+          wraps onto more lines at narrow widths, so it is taller there than
+          at desktop, not shorter. relative anchors the absolutely-positioned
           panels (see PANEL above). */}
-      <div className="relative mt-8 min-h-[18rem] border border-border bg-muted">
+      <div className="relative mt-8 min-h-[26rem] border border-border bg-muted md:min-h-[15rem]">
         <TabsContent value="me" className={PANEL}>
           <p className="max-w-prose text-body-lg text-foreground">{about.intro}</p>
           <p className="mono-label mt-8 text-muted-foreground">

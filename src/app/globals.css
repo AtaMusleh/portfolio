@@ -394,12 +394,6 @@ a:focus-visible .link-draw::after {
   animation-play-state: paused;
 }
 
-/* About tabs crossfade. Named keyframes (not a transition) are required:
-   Radix's Presence primitive detects an in-flight CSS animation by name to
-   decide when to actually unmount an inactive tab panel, so the outgoing and
-   incoming panel briefly coexist in the DOM — that overlap is the crossfade.
-   The global reduced-motion block below already collapses both to 0.01ms,
-   which is what makes the reduced-motion swap instant. */
 /* Hero typewriter caret. steps(1) (set inline via the arbitrary animation
    value) makes it hold each state instead of fading, i.e. a real blink. The
    global reduced-motion block collapses this to imperceptible, and the caret
@@ -411,24 +405,6 @@ a:focus-visible .link-draw::after {
   }
   50%,
   100% {
-    opacity: 0;
-  }
-}
-
-@keyframes tab-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes tab-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
     opacity: 0;
   }
 }

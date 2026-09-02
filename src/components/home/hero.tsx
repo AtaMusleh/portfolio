@@ -40,8 +40,17 @@ export function Hero() {
           the hero were still a flat 100svh, the padding would make hero +
           padding taller than one screen, pushing the AVAILABLE/CURRENTLY/
           ELSEWHERE strip below the fold on first load. Subtracting the same
-          clearance here keeps hero + padding exactly one screen again. */}
-      <div className="flex min-h-[calc(100svh-var(--nav-clearance))] flex-col">
+          clearance here keeps hero + padding exactly one screen again.
+
+          md:min-h-0, re-pinned at lg: below lg the CodePanel (absolutely
+          positioned, see below) is hidden, so forcing this column to a full
+          screen's height left nothing to fill the leftover space between the
+          CTAs and the scroll chevron — worst at md, where lines wrap least
+          and the leftover is largest. Below md the content wraps enough on
+          its own to mostly fill the screen, so the gap was never visible
+          there; from lg up the CodePanel needs the full-height column to
+          center against. */}
+      <div className="flex min-h-[calc(100svh-var(--nav-clearance))] flex-col md:min-h-0 lg:min-h-[calc(100svh-var(--nav-clearance))]">
         {/* TOP */}
         <Reveal trigger="mount">
           <div className="flex flex-wrap justify-between gap-x-8 gap-y-1 border-b border-border py-6">
