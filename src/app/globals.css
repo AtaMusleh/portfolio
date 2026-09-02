@@ -216,8 +216,9 @@
    only a browser that actually supports -webkit-text-stroke swaps to a
    transparent fill. A browser without support therefore renders readable solid
    text rather than an invisible transparent one.
-   The stroke scales with the type so it stays ~2px at display size and thins
-   out on small viewports instead of swallowing the counters. */
+   2px minimum at every size: the previous clamp(1px, 0.18vw, 2px) thinned out
+   on smaller viewports and read as low-contrast. It still scales up slightly
+   at very wide viewports instead of looking static. */
 .text-stroked {
   color: var(--brand);
 }
@@ -225,7 +226,7 @@
 @supports (-webkit-text-stroke: 1px currentColor) {
   .text-stroked {
     color: transparent;
-    -webkit-text-stroke: clamp(1px, 0.18vw, 2px) var(--brand);
+    -webkit-text-stroke: clamp(2px, 0.22vw, 3px) var(--brand);
   }
 }
 

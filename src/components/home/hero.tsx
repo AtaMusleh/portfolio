@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { GitHubIcon } from "@/components/icons/github";
 import { LinkedInIcon } from "@/components/icons/linkedin";
+import { CodePanel } from "@/components/home/code-panel";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Container } from "@/components/layout/Container";
@@ -83,6 +84,25 @@ export function Hero() {
                 </Link>
               </Magnetic>
             </div>
+          </Reveal>
+        </div>
+
+        {/* Fills the empty band between the CTAs and the bottom strip on
+            desktop only. Absolutely positioned — not a flex sibling — because
+            the band is produced by mt-auto on the chevron below soaking up
+            whatever space the flex column has left over. An in-flow panel
+            here competes with that slack for room: at typical viewport
+            heights the panel's own content (header + 10 lines) is taller than
+            the slack, so the flex column would grow past min-h-[100svh] to
+            fit it, adding real scroll height. Taking it out of flow removes
+            that coupling entirely — the hero's height-driven layout cannot
+            react to this panel's size at all. It anchors to Container, the
+            nearest positioned ancestor, so `right-0` lands on the gutter
+            edge and `top-1/2` centers it in the hero regardless of how tall
+            the hero ends up being. */}
+        <div className="hidden lg:absolute lg:top-1/2 lg:right-0 lg:block lg:w-full lg:max-w-md lg:-translate-y-1/2">
+          <Reveal trigger="mount" delay={210}>
+            <CodePanel />
           </Reveal>
         </div>
 
