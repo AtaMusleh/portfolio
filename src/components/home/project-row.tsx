@@ -41,7 +41,7 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
 
           <div className="min-w-0 lg:col-span-5">
             <div className="flex items-baseline gap-3">
-              <h3 className="text-h2 text-foreground transition duration-150 group-hover:text-brand group-focus-visible:text-brand">
+              <h3 className="text-h3 text-foreground transition duration-150 group-hover:text-brand group-focus-visible:text-brand">
                 {project.name}
               </h3>
               <ArrowRight
